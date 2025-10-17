@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  linhasDiario LinhasDiario[]
+  exercicios   Exercicio[]
+  refreshToken RefreshToken?
+  treinos      Treino[]
+  isBlocked    Boolean? @default(false)
+  dtIniPremium DateTime?
+  dtFimPremium DateTime?
+  stripeCliId  String?  @unique
+  stripeSubId  String?  @unique
+  statusAss    String   @default("inativo") // "ativo", "cancelado", "pendente"
+  plano        String?  // "mensal", "anual", "semestral"
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  @@index([stripeCliId])
+}
+
+model RefreshToken {
+  id            Int      @id @default(autoincrement())
+  expiresIn     Int
+  user          Usuario  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate:   Cascade)
+  userId        String   @unique
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model Exercicio {
+  id             Int      @id @default(autoincrement())
+  nome           String?   @unique
+  name           String?   @unique
+  execucoesPlano ExecucaoPlano[]
+  execucoesReal  ExecucaoReal[]
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  user           Usuario?  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate:   Cascade)
+  userId         String?
+  grupoMuscular   GrupoMuscular?  @relation(fields: [grupoMuscularId], references: [id], onDelete: Cascade, onUpdate:   Cascade)
+  grupoMuscularId Int?
+}
+ // @@index([nome])
+
+model GrupoMuscular {
+  id             Int      @id @default(autoincrement())
+  nome           String?   @unique
+  name           String?   @unique
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  exercicios     Exercicio[]
+}
+
+model Treino {
+  id              Int      @id @default(autoincrement())
+  nome            String
+  comentarioGeral String?
+  corCalendario   String?  @default("#00FFFF")
+  linhasDiario    LinhasDiario[]
+  execucoes       ExecucaoPlano[]
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId       String
+  ordem           Int?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  isAtivo         Boolean @default(true)
+  @@index([isAtivo])
+}
+
+model LinhasDiario {
+  id               Int      @id @default(autoincrement())
+  data             DateTime
+  pesoCorporal     Decimal? @db.Decimal(5, 2)
+  comentarioGeral  String?
+  execucoes        ExecucaoReal[]
+  usuario          Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId        String
+  treino           Treino?   @relation(fields: [treinoId], references: [id])
+  treinoId         Int?
+  updatedAt        DateTime @updatedAt
+  createdAt        DateTime @default(now())
+}
+
+model ExecucaoPlano {
+  id                 Int      @id @default(autoincrement())
+  reps               Int?
+  sets               Int?
+  carga              Decimal? @db.Decimal(6, 2)
+  tempo              Int?
+  ordem              Int?
+  comentarioExecucao String?
+  exercicio          Exercicio @relation(fields: [exercicioId], references: [id])
+  exercicioId        Int
+  treino             Treino   @relation(fields: [treinoId], references: [id],onDelete: Cascade)
+  treinoId           Int
+  updatedAt          DateTime @updatedAt
+  createdAt          DateTime @default(now())
+  @@index([exercicioId])
+}
+
+model ExecucaoReal {
+  id                  Int      @id @default(autoincrement())
+  reps                Int?
+  sets                Int?
+  carga               Decimal? @db.Decimal(6, 2)
+  tempo               Int?
+  ordem               Int?
+  comentarioExecucao  String?
+  percepcao           Int?
+  exercicio           Exercicio @relation(fields: [exercicioId], references: [id])
+  exercicioId         Int
+  diario              LinhasDiario @relation(fields: [diarioId], references: [id],onDelete: Cascade)
+  diarioId            Int
+  updatedAt           DateTime @updatedAt
+  createdAt           DateTime @default(now())
+  @@index([exercicioId])
+}

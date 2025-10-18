@@ -12,10 +12,7 @@ model Usuario {
   name         String
   email        String   @unique
   password     String
-  linhasDiario LinhasDiario[]
-  exercicios   Exercicio[]
   refreshToken RefreshToken?
-  treinos      Treino[]
   isBlocked    Boolean? @default(false)
   dtIniPremium DateTime?
   dtFimPremium DateTime?
@@ -37,91 +34,26 @@ model RefreshToken {
   createdAt     DateTime @default(now())
 }
 
-model Exercicio {
+model Conteudo {
   id             Int      @id @default(autoincrement())
-  nome           String?   @unique
-  name           String?   @unique
-  execucoesPlano ExecucaoPlano[]
-  execucoesReal  ExecucaoReal[]
+  nome           String?  @unique
+  name           String?  @unique
+  link           String?
+  filename       String
+  mimetype       String
+  data           Bytes
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
-  user           Usuario?  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate:   Cascade)
-  userId         String?
-  grupoMuscular   GrupoMuscular?  @relation(fields: [grupoMuscularId], references: [id], onDelete: Cascade, onUpdate:   Cascade)
-  grupoMuscularId Int?
+  Categoria      Categoria[]
 }
  // @@index([nome])
 
-model GrupoMuscular {
+model Categoria {
   id             Int      @id @default(autoincrement())
-  nome           String?   @unique
-  name           String?   @unique
+  nome           String?  @unique
+  name           String?  @unique
+  descricao      String?
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
-  exercicios     Exercicio[]
-}
-
-model Treino {
-  id              Int      @id @default(autoincrement())
-  nome            String
-  comentarioGeral String?
-  corCalendario   String?  @default("#00FFFF")
-  linhasDiario    LinhasDiario[]
-  execucoes       ExecucaoPlano[]
-  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId       String
-  ordem           Int?
-  updatedAt       DateTime @updatedAt
-  createdAt       DateTime @default(now())
-  isAtivo         Boolean @default(true)
-  @@index([isAtivo])
-}
-
-model LinhasDiario {
-  id               Int      @id @default(autoincrement())
-  data             DateTime
-  pesoCorporal     Decimal? @db.Decimal(5, 2)
-  comentarioGeral  String?
-  execucoes        ExecucaoReal[]
-  usuario          Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId        String
-  treino           Treino?   @relation(fields: [treinoId], references: [id])
-  treinoId         Int?
-  updatedAt        DateTime @updatedAt
-  createdAt        DateTime @default(now())
-}
-
-model ExecucaoPlano {
-  id                 Int      @id @default(autoincrement())
-  reps               Int?
-  sets               Int?
-  carga              Decimal? @db.Decimal(6, 2)
-  tempo              Int?
-  ordem              Int?
-  comentarioExecucao String?
-  exercicio          Exercicio @relation(fields: [exercicioId], references: [id])
-  exercicioId        Int
-  treino             Treino   @relation(fields: [treinoId], references: [id],onDelete: Cascade)
-  treinoId           Int
-  updatedAt          DateTime @updatedAt
-  createdAt          DateTime @default(now())
-  @@index([exercicioId])
-}
-
-model ExecucaoReal {
-  id                  Int      @id @default(autoincrement())
-  reps                Int?
-  sets                Int?
-  carga               Decimal? @db.Decimal(6, 2)
-  tempo               Int?
-  ordem               Int?
-  comentarioExecucao  String?
-  percepcao           Int?
-  exercicio           Exercicio @relation(fields: [exercicioId], references: [id])
-  exercicioId         Int
-  diario              LinhasDiario @relation(fields: [diarioId], references: [id],onDelete: Cascade)
-  diarioId            Int
-  updatedAt           DateTime @updatedAt
-  createdAt           DateTime @default(now())
-  @@index([exercicioId])
+  conteudos      Conteudo[]
 }

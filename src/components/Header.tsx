@@ -13,12 +13,12 @@ export default function Header() {
         <Link href="/" className="text-xl font-bebas flex items-center text-green-600 font-bold">
           <Image 
             src="/logo-kpg.png" 
-            alt="KeepGoing Logo" 
+            alt="DirectFlix Logo" 
             width={75} 
             height={20} 
             className="object-contain"
           />
-          KeepGoingDiary
+          DirectFLix
         </Link>
         
         {/* Navegação Desktop */}
@@ -71,7 +71,7 @@ export default function Header() {
                 Entrar
               </Link>
               <Link 
-                href="/registro" 
+                href="/signup" 
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition hidden md:block"
               >
                 Comece Grátis

@@ -47,10 +47,11 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
         if (data.body?.message?.startsWith('101 - 2')) {
           return NextResponse.redirect(new URL('/checkout', request.url))
         } else if (data.body?.message?.startsWith('101 - 1')) {
-          return NextResponse.redirect(new URL('/404', request.url))
+          return NextResponse.redirect(new URL('/checkout', request.url))
         }
-        return NextResponse.redirect(new URL('/', request.url))
+        return NextResponse.redirect(new URL('/login', request.url))
       }
+      return NextResponse.redirect(new URL('/letsgo', request.url))
     } catch(error){
       console.log(error);
       return NextResponse.redirect(new URL('/', request.url))

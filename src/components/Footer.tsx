@@ -5,9 +5,9 @@ export default function Footer() {
   return (
     <footer className="py-10 border-t border-gray-800 bg-gray-800">
         <div className="container mx-auto px-6 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} Keep Going Diary. Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} Director Flix. Todos os direitos reservados.</p>
             <p className="mt-2 text-sm">
-            Transformando treinos em conquistas!
+              
             </p>
         </div>
     </footer>

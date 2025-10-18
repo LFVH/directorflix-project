@@ -1,112 +1,86 @@
+// app/page.tsx
 'use client'
-import CalendarioTreinos from '@/components/Calendario';
-import { Button } from '@/components/ui/button';
-import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
-import { Loader } from 'rsuite';
-const fetchDiario = async () => {
-    const response = await fetch(`/api/letsgo/diario`, { method: "GET" });
-    const data = await response.json();
-    return data.data || [];
-  };
-export default function Page() {
-    const { 
-    data: linhas,
-    isLoading,
-    isSuccess,
-    refetch,
-    isFetching,
-    isError, 
-    error,
-   } = useQuery({
-    queryKey: ["getTreinosUsuario"],
-    initialData: [],
-    queryFn: () => fetchDiario(),
-  })
 
-  if (isLoading || isFetching) {
-    return <Loader/>;
+import { useCategorias } from '@/hooks/useCategorias'
+import HeroBanner from '@/components/HeroBanner'
+import CarrosselCategoria from '@/components/CarrosselCategoria'
+import LoadingSpinner from '@/components/LoadingSpinner'
+
+export default function DirectorPage() {
+  const { data: categorias, isLoading, error } = useCategorias()
+
+  if (isLoading) {
+    return <LoadingSpinner />
   }
-  
-  if (isError) {
-    console.error("Erro ao buscar em /diario:", error);
-    return <p>Erro ao carregar dados</p>;
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl text-white mb-4">Erro ao carregar conteúdo</h1>
+          <p className="text-gray-400">{error.message}</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!categorias || categorias.length === 0) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl text-white mb-4">Nenhum conteúdo disponível</h1>
+          <p className="text-gray-400">Adicione categorias e conteúdos para começar.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="grid gap-4 md:gap-8">
-      <div>
-        <h1 className="text-center text-2xl font-bold mb-4">Meu Calendário de Treinos</h1>
-        <CalendarioTreinos linhasDiario={linhas} />
-      </div>
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-4 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <main className="flex flex-col gap-8 row-start-2 items-center justify-start h-full">
-          <Button asChild title="Registrar treino feito!" variant="treino" size="treino" >
-            <Link href="/letsgo/diario?boa-segue-firme=open">
-            Registrar Treino Realizado
-            </Link>
-          </Button>
-          <Button asChild title="Histórico de treinos já realizados" variant="treino" size="treino" >
-            <Link href="/letsgo/diario">
-                Histórico - treinos realizados
-            </Link>
-          </Button>
-          <Button asChild title="Ver, Adicionar ou Remover treinos pre cadastrados" variant="treino" size="treino" >
-            <Link href="/letsgo/treinos">
-              Plano de treinos
-            </Link>
-          </Button>
-          <Button asChild title="Ver, Adicionar ou Remover treinos pre cadastrados" variant="treino" size="treino" >
-            <Link href="/letsgo/statistics">
-              Estatísticas
-            </Link>
-          </Button>
-        </main>
-        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-          <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-              Parabéns! Treine, registre, avance!
-          </ol>
-        </footer>
-      </div>
-    </div>
-  );
-}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Today&apos;s Orders</CardTitle>
-          <CardDescription>
-            Your orders for today. Keep up the good work!
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-4">
-            {orders.map((order) => (
-              <Card key={order.id}>
-                <CardContent className="flex flex-col justify-between gap-4 py-4 md:flex-row md:items-center">
-                  <div className="flex items-center gap-4">
-                    <Image
-                      alt="Image"
-                      className="rounded-md object-cover"
-                      height="64"
-                      src={order.image}
-                      style={{
-                        aspectRatio: '64/64',
-                        objectFit: 'cover',
-                      }}
-                      width="64"
-                    />
-                    <div className="grid flex-1 gap-1">
-                      <h3 className="font-semibold">{order.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        Order ID: {order.orderId}
-                      </p>
-                    </div>
-                  </div>
-
-                  <Button size="sm">Track</Button>
-                </CardContent>
-              </Card>
-            ))}
+    <div className="min-h-screen bg-black">
+      {/* Header */}
+      <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent p-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-8">
+            <h1 className="text-red-600 text-2xl font-bold">Director Flix</h1>
+            <nav className="hidden md:flex gap-6">
+              <a href="#" className="text-white hover:text-gray-300 transition-colors">Início</a>
+            </nav>
           </div>
-        </CardContent>
-      </Card> */}
+          <div className="flex items-center gap-4">
+            <button className="text-white hover:text-gray-300 transition-colors">
+              🔍
+            </button>
+            <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center text-white font-bold">
+              U
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Conteúdo Principal */}
+      <main className="pt-16">
+        {/* Hero Banner */}
+        <HeroBanner categorias={categorias} />
+
+        {/* Lista de Categorias */}
+        <section className="py-8 space-y-12">
+          {categorias.map((categoria) => (
+            <CarrosselCategoria 
+              key={categoria.id} 
+              categoria={categoria} 
+            />
+          ))}
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-black border-t border-gray-800 py-8 px-8">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-gray-400 text-center">
+            © {new Date().getFullYear()} Director Flix. Todos os direitos reservados.
+          </p>
+        </div>
+      </footer>
+    </div>
+  )
+}

@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: "subscription",
-      subscription_data: {  // <--- Isso é crucial!
+      subscription_data: {  
         metadata: {
-          userId: userId  // Repete os metadados aqui
+          userId: userId 
         }
       },
       payment_method_types:  ["card"],

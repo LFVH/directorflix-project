@@ -3,7 +3,6 @@ import React, { Suspense } from 'react';
 import ClientProviders from "@/utils/Providers"
 import { Inter, Poppins, Bebas_Neue } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CtaSection from '@/components/CtaSection';
 
@@ -22,8 +21,8 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata = {
-  title: 'Keep Going - Diário de Treinos',
-  description: 'Registre, evolua e supere seus limites com o Keep Going Diary'
+  title: 'DirectFlix - Sua Plataforma de referências',
+  description: 'As melhores referências em uma experiência incrível',
 };
 
 export default function RootLayout({
@@ -36,7 +35,6 @@ export default function RootLayout({
       <body className={`${inter.className} bg-gray-50 text-gray-800`}>
         <div className="min-h-screen flex flex-col">
           <ClientProviders>
-            <Header />          
             <main className="flex-grow">
             <Suspense fallback={<div>Carregando página...</div>}>
                 {children}

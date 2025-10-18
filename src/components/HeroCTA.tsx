@@ -2,31 +2,72 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function HeroCTA() {
   const [email, setEmail] = useState('')
+  const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Lógica de inscrição aqui
-    console.log('Email cadastrado:', email)
+    
+    // Validação básica do email
+    if (!email || !email.includes('@')) {
+      alert('Por favor, insira um email válido')
+      return
+    }
+
+    // Codificar o email para passar como query parameter
+    const encodedEmail = encodeURIComponent(email)
+    
+    // Redirecionar para a página de checkout com o email
+    router.push(`/checkout?email=${encodedEmail}`)
+    
+    // Opcional: limpar o campo após o envio
     setEmail('')
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-purple-900 via-black to-red-900 min-h-screen flex items-center justify-center px-4">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-black/50"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/80 to-black"></div>
+<div className="relative bg-gradient-to-br from-purple-900 via-black to-red-900 min-h-screen flex items-center justify-center px-4">
+  {/* Background Pattern */}
+  <div className="absolute inset-0 bg-black/50"></div>
+  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/80 to-black"></div>
+
+  {/* Header com botões */}
+  <header className="absolute top-0 left-0 right-0 z-20 p-6">
+    <div className="max-w-6xl mx-auto flex justify-between items-center">
+      {/* Logo pequeno */}
+      <div className="text-2xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+        DIRECTOR FLIX
+      </div>
       
-      <div className="relative z-10 max-w-6xl mx-auto text-center">
-        {/* Logo */}
-        <div className="mb-8">
-          <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            DIRECT FLIX
-          </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
-        </div>
+      {/* Botões de autenticação */}
+      <div className="flex gap-4">
+        <Link 
+          href="/login" 
+          className="px-5 py-2 text-white bg-transparent border border-white/30 hover:bg-white/10 rounded-lg transition-colors font-medium backdrop-blur-sm"
+        >
+          Entrar
+        </Link>
+        <Link 
+          href="/signup" 
+          className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
+        >
+          Cadastrar
+        </Link>
+      </div>
+    </div>
+  </header>
+  
+  <div className="relative z-10 max-w-6xl mx-auto text-center">
+    {/* Logo principal */}
+    <div className="mb-8">
+      <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent mb-4">
+        DIRECTOR FLIX
+      </h1>
+      <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
+    </div>
 
         {/* Headline */}
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
@@ -73,7 +114,7 @@ export default function HeroCTA() {
             Comece a Criar com Mais Inspiração
           </h3>
           <p className="text-gray-300 mb-6">
-            Junte-se a milhares de editores que já aceleraram seu workflow criativo
+            Digite seu email para acessar planos e começar hoje mesmo
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
@@ -89,12 +130,12 @@ export default function HeroCTA() {
               type="submit"
               className="px-8 py-4 bg-gradient-to-r from-red-600 to-purple-600 text-white font-bold rounded-lg hover:from-red-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-red-500/25"
             >
-              ACESSAR BIBLIOTECA
+              VER PLANOS
             </button>
           </form>
 
           <p className="text-gray-400 text-sm mt-4">
-            📧 Enviaremos um link de acesso instantâneo para seu email
+            🔒 Seus dados estão seguros. Não compartilhamos seu email com terceiros.
           </p>
         </div>
 
@@ -108,33 +149,7 @@ export default function HeroCTA() {
             <div className="text-white font-bold text-lg">MOTION LAB</div>
           </div>
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 max-w-2xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-500 mb-2">10K+</div>
-            <div className="text-gray-400 text-sm">Referências</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-500 mb-2">500+</div>
-            <div className="text-gray-400 text-sm">Categorias</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-500 mb-2">5K+</div>
-            <div className="text-gray-400 text-sm">Editores</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-500 mb-2">99%</div>
-            <div className="text-gray-400 text-sm">Satisfação</div>
-          </div>
-        </div>
       </div>
-
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-      <div className="absolute top-40 right-20 w-6 h-6 bg-purple-500 rounded-full animate-bounce"></div>
-      <div className="absolute bottom-32 left-20 w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-      <div className="absolute bottom-20 right-32 w-5 h-5 bg-green-500 rounded-full animate-bounce"></div>
     </div>
   )
 }

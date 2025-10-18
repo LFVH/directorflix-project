@@ -149,7 +149,7 @@ export default function CheckoutPage() {
             onClick={() => setAssinatura(2)}
           >
             <div className="px-6 py-8 bg-purple-700 text-white">
-              <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 px-3 py-1 text-xs font-bold rounded-bl-lg">
+              <div className="bg-yellow-400 text-yellow-900 px-3 py-1 text-xs font-bold rounded-bl-lg">
                 MAIS POPULAR
               </div>
               <h3 className="text-2xl font-bold text-center">Plano semestral</h3>

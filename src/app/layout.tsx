@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import ClientProviders from "@/utils/Providers"
 import { Inter, Poppins, Bebas_Neue } from 'next/font/google';
 import './globals.css';
-import Footer from '@/components/Footer';
+//import Footer from '@/components/Footer';
 import CtaSection from '@/components/CtaSection';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -41,7 +41,6 @@ export default function RootLayout({
             </Suspense>
             </main>        
           </ClientProviders>
-          <Footer />
         </div>
       </body>
     </html>

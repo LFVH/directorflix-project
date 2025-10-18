@@ -26,6 +26,10 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   if (request.nextUrl.pathname.startsWith("/login") && token) {
     return NextResponse.redirect(new URL("/letsgo", request.url));
   }
+  if (request.nextUrl.pathname === "/" && token) {
+    return NextResponse.redirect(new URL("/letsgo", request.url))
+  }
+
   if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
     const authResult = await authMiddleware(request as NextRequestWithAuth, event)
     if (authResult) return authResult
@@ -51,11 +55,10 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
         }
         return NextResponse.redirect(new URL('/login', request.url))
       }
-      return NextResponse.redirect(new URL('/letsgo', request.url))
     } catch(error){
       console.log(error);
       return NextResponse.redirect(new URL('/', request.url))
     }
-}
+  }
   return NextResponse.next()
 }

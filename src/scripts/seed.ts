@@ -134,8 +134,74 @@ async function main() {
 
   const conteudoReaction2 = await prisma.conteudo.create({
     data: {
-      nome: 'facepalm',
-      name: 'Facepalm',
+      nome: 'facepalm2222',
+      name: 'Facepalm2222',
+      filename: 'facepalm.gif',
+      mimetype: 'image/gif',
+      link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
+      data: Buffer.from(''),
+      Categoria: {
+        connect: [{ id: categoriaReactions.id }]
+      }
+    }
+  })
+
+    const conteudoReaction3 = await prisma.conteudo.create({
+    data: {
+      nome: 'facepalm222',
+      name: 'Facepalm222',
+      filename: 'facepalm.gif',
+      mimetype: 'image/gif',
+      link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
+      data: Buffer.from(''),
+      Categoria: {
+        connect: [{ id: categoriaReactions.id }]
+      }
+    }
+  })
+    const conteudoReaction4 = await prisma.conteudo.create({
+    data: {
+      nome: 'facepalm22',
+      name: 'Facepalm22',
+      filename: 'facepalm.gif',
+      mimetype: 'image/gif',
+      link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
+      data: Buffer.from(''),
+      Categoria: {
+        connect: [{ id: categoriaReactions.id }]
+      }
+    }
+  })
+    const conteudoReaction5 = await prisma.conteudo.create({
+    data: {
+      nome: 'facepalm2',
+      name: 'Facepalm2',
+      filename: 'facepalm.gif',
+      mimetype: 'image/gif',
+      link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
+      data: Buffer.from(''),
+      Categoria: {
+        connect: [{ id: categoriaReactions.id }]
+      }
+    }
+  })
+    const conteudoReaction6 = await prisma.conteudo.create({
+    data: {
+      nome: 'facepalm6',
+      name: 'Facepalm6',
+      filename: 'facepalm.gif',
+      mimetype: 'image/gif',
+      link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
+      data: Buffer.from(''),
+      Categoria: {
+        connect: [{ id: categoriaReactions.id }]
+      }
+    }
+  })
+    const conteudoReaction7 = await prisma.conteudo.create({
+    data: {
+      nome: 'facepalm7',
+      name: 'Facepalm7',
       filename: 'facepalm.gif',
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',

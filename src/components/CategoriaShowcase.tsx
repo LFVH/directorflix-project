@@ -34,9 +34,6 @@ export default function CategoriaShowcase() {
                 <span className="text-red-500 text-sm font-semibold">
                   {categoria.conteudos.length} referências
                 </span>
-                <button className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm transition-colors">
-                  Explorar
-                </button>
               </div>
             </div>
           ))}

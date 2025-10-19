@@ -38,13 +38,15 @@ model Conteudo {
   id             Int      @id @default(autoincrement())
   nome           String?  @unique
   name           String?  @unique
-  link           String?
+  link           String?  //link do gif
+  fonte          String? 
+  linkext        String?  //video para redirecionar
   filename       String
   mimetype       String
   data           Bytes
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
-  Categoria      Categoria[]
+  categorias     Categoria[]
 }
  // @@index([nome])
 

@@ -25,6 +25,8 @@ export async function GET(request: NextRequest) {
               filename: true,
               mimetype: true,
               link: true,
+              linkext: true,
+              fonte: true,
               createdAt: true,
             },
             orderBy: { createdAt: 'desc' },

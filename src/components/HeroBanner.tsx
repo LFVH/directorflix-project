@@ -11,11 +11,8 @@ interface HeroBannerProps {
 }
 
 export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBannerProps) {
+  if (categoriaFiltrada) return <div></div>;
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
-  logNow('categoriaFiltrada')
-  console.log(categoriaFiltrada)
-  logNow('categorias')
-  console.log(categorias)
    const bannerConteudos = (categoriaFiltrada 
     ? categorias.find(c => c.id === categoriaFiltrada)?.conteudos || []
     : categorias.flatMap(c => c.conteudos)).slice(0, 5)

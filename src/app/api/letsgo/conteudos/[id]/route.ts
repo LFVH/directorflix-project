@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = parseInt((params).id, 10);
+    const id = parseInt((await params).id, 10);
     const userId = await verifyUser();
     if (userId instanceof NextResponse) return userId; 
     if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });

@@ -1,25 +1,59 @@
-// components/CarrosselCategoria.tsx
+// components/CarrosselCategoria.tsx - ATUALIZADO
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
 import { CategoriaWithUrls } from '@/types'
+import ConteudoItem from './ConteudoItem'
 
 interface CarrosselCategoriaProps {
   categoria: CategoriaWithUrls
+  layout?: 'carrossel' | 'lista' // 🔥 NOVO: suporte a diferentes layouts
 }
 
-export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProps) {
+export default function CarrosselCategoria({ 
+  categoria, 
+  layout = 'carrossel' // 🔥 Padrão é carrossel
+}: CarrosselCategoriaProps) {
   const carrosselRef = useRef<HTMLDivElement>(null)
   const [showLeftArrow, setShowLeftArrow] = useState(false)
   const [showRightArrow, setShowRightArrow] = useState(true)
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollRequestRef = useRef<number>(0)
 
-  // Configurações de scroll
-  const SCROLL_DURATION = 600 // ms - mais longo para mais suavidade
-  const SCROLL_AMOUNT = 400 // pixels por scroll
+  // 🔥 SE for layout lista, não renderiza o carrossel
+  if (layout === 'lista') {
+    return (
+      <div className="relative">
+        <h2 className="text-2xl font-bold text-white mb-6 px-8">
+          {categoria.nome}
+        </h2>
+        
+        {categoria.descricao && (
+          <p className="text-gray-400 mb-6 px-8 text-sm">
+            {categoria.descricao}
+          </p>
+        )}
 
-  // Função de easing para transição mais suave
+        {/* 🔥 LAYOUT LISTA - Grid responsivo */}
+        <div className="px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {categoria.conteudos.map((conteudo, index) => (
+              <ConteudoItem
+                key={`${conteudo.id}-${index}`}
+                conteudo={conteudo}
+                layout="lista"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 🔥 ABAIXO: Código original do carrossel (mantido para layout carrossel)
+  const SCROLL_DURATION = 600
+  const SCROLL_AMOUNT = 400
+
   const easeInOutQuad = (t: number): number => {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
   }
@@ -59,21 +93,17 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
     let targetScroll: number
 
     if (direction === 'right') {
-      // Se está no fim, volta para o início suavemente
       if (scrollLeft >= scrollWidth - clientWidth - 50) {
         targetScroll = 0
       } else {
         targetScroll = scrollLeft + SCROLL_AMOUNT
-        // Garantir que não passe do fim
         targetScroll = Math.min(targetScroll, scrollWidth - clientWidth)
       }
     } else {
-      // Se está no início, vai para o fim suavemente
       if (scrollLeft <= 50) {
         targetScroll = scrollWidth - clientWidth
       } else {
         targetScroll = scrollLeft - SCROLL_AMOUNT
-        // Garantir que não passe do início
         targetScroll = Math.max(0, targetScroll)
       }
     }
@@ -85,10 +115,6 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
     if (!carrosselRef.current) return
 
     const { scrollLeft, scrollWidth, clientWidth } = carrosselRef.current
-    const isAtStart = scrollLeft <= 10
-    const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 10
-
-    // Em modo cíclico, sempre mostramos ambas as setas
     setShowLeftArrow(true)
     setShowRightArrow(true)
   }
@@ -99,7 +125,6 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
     }
   }
 
-  // Cleanup animation frame on unmount
   useEffect(() => {
     return () => {
       if (scrollRequestRef.current) {
@@ -108,7 +133,6 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
     }
   }, [])
 
-  // Inicializar setas quando o componente monta
   useEffect(() => {
     updateArrows()
     
@@ -120,7 +144,6 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
     return () => window.removeEventListener('resize', handleResize)
   }, [categoria.conteudos.length])
 
-  // Atualizar setas quando os conteúdos mudam
   useEffect(() => {
     setTimeout(updateArrows, 100)
   }, [categoria.conteudos])
@@ -157,7 +180,7 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
           </svg>
         </button>
 
-        {/* Carrossel com container para melhor performance */}
+        {/* Carrossel */}
         <div className="relative px-8">
           <div
             ref={carrosselRef}
@@ -175,37 +198,14 @@ export default function CarrosselCategoria({ categoria }: CarrosselCategoriaProp
             }}
           >
             {categoria.conteudos.map((conteudo, index) => (
-              <div
+              <ConteudoItem
                 key={`${conteudo.id}-${index}`}
-                className="flex-none w-64 h-36 transition-all duration-500 ease-out transform hover:scale-105 hover:z-10 flex-shrink-0"
-              >
-                <div className="relative w-full h-full rounded-lg overflow-hidden shadow-lg bg-gray-800 group/item">
-                  <img
-                    src={conteudo.url}
-                    alt={conteudo.filename}
-                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/item:scale-110"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.src = '/placeholder-image.jpg'
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-all duration-500 ease-out">
-                    <div className="absolute bottom-2 left-2 right-2">
-                      <p className="text-white text-sm font-medium truncate transform translate-y-2 group-hover/item:translate-y-0 transition-transform duration-300">
-                        {conteudo.filename.replace('.gif', '')}
-                      </p>
-                      <p className="text-gray-300 text-xs truncate transform translate-y-2 group-hover/item:translate-y-0 transition-transform duration-400">
-                        {conteudo.nome || conteudo.name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                conteudo={conteudo}
+                layout="carrossel"
+              />
             ))}
           </div>
 
-          {/* Overlay de loading durante scroll */}
           {isScrolling && (
             <div className="absolute inset-0 bg-black/10 rounded-lg pointer-events-none z-20" />
           )}

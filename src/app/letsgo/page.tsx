@@ -1,16 +1,16 @@
 // app/letsgo/page.tsx - Versão Final
 'use client'
 
-import { useCategoriaFilter } from '@/hooks/useCategoriaFilter'
+import { useGlobalFilter } from '@/hooks/useGlobalFilter'
 import HeroBanner from '@/components/HeroBanner'
-import CategoriasInfiniteScroll from '@/components/CategoriasInfiniteScroll'
+import ConteudosFiltradosComScroll from '@/components/ConteudosFiltradosComScroll'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import HeaderWithCategories from '@/components/HeaderWithCategories'
 import { useCategorias } from '@/hooks/useCategorias'
 
 export default function DirectorPage() {
-  const { data: categoriasBanner, isLoading: bannerLoading } = useCategorias()
-  const { categoriaAtiva } = useCategoriaFilter()
+  const { data: categorias, isLoading: bannerLoading } = useCategorias()
+  const { filtroAtivo, tipoFiltro, termoPesquisa } = useGlobalFilter()
 
   if (bannerLoading) {
     return <LoadingSpinner />
@@ -21,14 +21,19 @@ export default function DirectorPage() {
       <HeaderWithCategories />
       
       <main className="pt-20">
-        {/* Hero Banner - Mostra conteúdo relevante para o filtro */}
+        {/* Hero Banner */}
         <HeroBanner 
-          categorias={categoriasBanner || []}
-          categoriaFiltrada={categoriaAtiva}
+          categorias={categorias || []}
+          categoriaFiltrada={tipoFiltro === 'categoria' ? filtroAtivo : null}
         />
         
-        {/* Lista com scroll infinito E filtro integrado */}
-        <CategoriasInfiniteScroll />
+        {/* Conteúdos com Filtro + Scroll Infinito + Carrosseis Circulares */}
+        <ConteudosFiltradosComScroll 
+          categorias={categorias || []}
+          filtroAtivo={filtroAtivo}
+          tipoFiltro={tipoFiltro}
+          termoPesquisa={termoPesquisa}
+        />
       </main>
       
       <footer className="bg-black border-t border-gray-800 py-8 px-8">

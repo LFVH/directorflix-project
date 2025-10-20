@@ -8,58 +8,54 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Iniciando seed do banco de dados...')
 
-  // Limpar dados existentes
-  await prisma.conteudo.deleteMany()
-  await prisma.categoria.deleteMany()
-
   // Criar categorias
   const categoriaAnimes = await prisma.categoria.create({
     data: {
-      nome: 'Animes',
-      name: 'Animes',
-      descricao: 'Os melhores GIFs de animes e cultura japonesa'
+      nome: 'Dança',
+      name: 'Dança',
+      descricao: 'Os melhores GIFs de Dança e cultura japonesa'
     }
   })
 
   const categoriaMemes = await prisma.categoria.create({
     data: {
-      nome: 'Memes',
-      name: 'Memes', 
+      nome: 'Cinema',
+      name: 'Cinema', 
       descricao: 'GIFs engraçados e memes virais da internet'
     }
   })
 
   const categoriaReactions = await prisma.categoria.create({
     data: {
-      nome: 'Reactions',
-      name: 'Reactions',
+      nome: 'Cores',
+      name: 'Cores',
       descricao: 'Reações perfeitas para todas as situações'
     }
   })
 
   const categoriaGames = await prisma.categoria.create({
     data: {
-      nome: 'Games',
-      name: 'Games',
+      nome: 'Teste2',
+      name: 'Teste2',
       descricao: 'GIFs do mundo dos jogos e gamers'
     }
   })
 
   const categoriaFilmes = await prisma.categoria.create({
     data: {
-      nome: 'Filmes',
-      name: 'Movies',
+      nome: 'Teste1',
+      name: 'TEste1',
       descricao: 'Cenas icônicas e momentos de filmes'
     }
   })
 
-  console.log('✅ Categorias criadas!')
+  console.log('✅ categoriass criadas!')
 
   // Criar conteúdos de exemplo
   // Nota: Para dados reais, você precisaria ter arquivos GIF na pasta public/seed-gifs/
   // Ou usar links externos para GIFs
 
-  // Conteúdos para Animes
+  // Conteúdos para Dança
   const conteudoAnime1 = await prisma.conteudo.create({
     data: {
       nome: 'naruto-correndo',
@@ -68,8 +64,8 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif',
       data: Buffer.from(''), // Buffer vazio para exemplo
-      Categoria: {
-        connect: [{ id: categoriaAnimes.id }]
+      categorias: {
+        connect: [{ id: categoriaMemes.id }]
       }
     }
   })
@@ -82,7 +78,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaAnimes.id }]
       }
     }
@@ -97,7 +93,7 @@ async function main() {
       mimetype: 'image/gif', 
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaMemes.id }]
       }
     }
@@ -111,7 +107,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaMemes.id }]
       }
     }
@@ -126,7 +122,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -140,7 +136,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -154,7 +150,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -167,7 +163,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -180,7 +176,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -193,7 +189,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -206,7 +202,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaReactions.id }]
       }
     }
@@ -221,7 +217,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaGames.id }]
       }
     }
@@ -236,7 +232,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [{ id: categoriaFilmes.id }]
       }
     }
@@ -251,7 +247,7 @@ async function main() {
       mimetype: 'image/gif',
       link: 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif',
       data: Buffer.from(''),
-      Categoria: {
+      categorias: {
         connect: [
           { id: categoriaAnimes.id },
           { id: categoriaMemes.id }

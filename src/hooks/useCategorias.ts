@@ -6,7 +6,7 @@ export const useCategorias = () => {
   return useQuery({
     queryKey: ['categorias'],
     queryFn: async (): Promise<CategoriaWithUrls[]> => {
-      const response = await fetch('/api/letsgo/categorias', {
+      const response = await fetch('/api/letsgo/categorias?page=1&limit=999', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const useCategorias = () => {
       const result = await response.json()
       const categorias = result.data
       
-      // Adiciona URLs para os GIFs (prioriza link, depois API)
+      // Adiciona URLs para os GIFs
       return categorias.map((categoria: any) => ({
         ...categoria,
         conteudos: categoria.conteudos.map((conteudo: any) => ({

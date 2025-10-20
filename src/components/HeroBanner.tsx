@@ -6,16 +6,15 @@ import { useState, useEffect } from 'react'
 
 interface HeroBannerProps {
   categorias: CategoriaWithUrls[]
+  categoriaFiltrada?: string | null
 }
 
-export default function HeroBanner({ categorias }: HeroBannerProps) {
+export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBannerProps) {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
   
-  // Pega todos os conteúdos de todas as categorias
-  const allConteudos = categorias.flatMap(categoria => categoria.conteudos)
-  
-  // Filtra apenas conteúdos que podem ser bons para banner (opcional)
-  const bannerConteudos = allConteudos.slice(0, 5) // Pega os primeiros 5
+   const bannerConteudos = categoriaFiltrada
+    ? categorias.find(c => c.id === categoriaFiltrada)?.conteudos || []
+    : categorias.flatMap(c => c.conteudos)
 
   useEffect(() => {
     if (bannerConteudos.length <= 1) return
@@ -32,7 +31,7 @@ export default function HeroBanner({ categorias }: HeroBannerProps) {
   if (bannerConteudos.length === 0) return null
 
   const currentBanner = bannerConteudos[currentBannerIndex]
-
+  if(!currentBanner || !currentBanner.url) return null
   return (
     <div className="relative h-96 md:h-[500px] w-full overflow-hidden">
       {/* Imagem do Banner */}

@@ -88,7 +88,7 @@ export default function CategoriasInfiniteScroll() {
       {!hasMore && categorias.length > 0 && !categoriaAtiva && (
         <div className="text-center py-8">
           <p className="text-gray-400">
-            Você viu todas as {categorias.length} categorias!
+            OK Let's go.
           </p>
         </div>
       )}

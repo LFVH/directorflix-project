@@ -24,7 +24,7 @@ export default function EditarConteudoPage() {
     try {
       const [conteudoResponse, categoriasResponse] = await Promise.all([
         fetch(`/api/letsgo/conteudo/${params.id}`),
-        fetch('/api/letsgo/categorias')
+        fetch('/api/letsgo/categorias?page=1&limit=999')
       ])
 
       const conteudoResult = await conteudoResponse.json()

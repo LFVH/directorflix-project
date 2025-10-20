@@ -2,6 +2,7 @@
 'use client'
 
 import { CategoriaWithUrls } from '@/types'
+import { logNow } from '@/utils/Logging'
 import { useState, useEffect } from 'react'
 
 interface HeroBannerProps {
@@ -11,13 +12,15 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBannerProps) {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
-  
-   const bannerConteudos = categoriaFiltrada
+  logNow('categoriaFiltrada')
+  console.log(categoriaFiltrada)
+  logNow('categorias')
+  console.log(categorias)
+   const bannerConteudos = (categoriaFiltrada 
     ? categorias.find(c => c.id === categoriaFiltrada)?.conteudos || []
-    : categorias.flatMap(c => c.conteudos)
-
+    : categorias.flatMap(c => c.conteudos)).slice(0, 5)
   useEffect(() => {
-    if (bannerConteudos.length <= 1) return
+    if (bannerConteudos.length <= 0) return
 
     const interval = setInterval(() => {
       setCurrentBannerIndex((prev) => 

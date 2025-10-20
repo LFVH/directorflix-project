@@ -5,6 +5,8 @@ export interface Conteudo {
   mimetype: string
   data: Buffer
   createdAt: Date
+  nome: string
+  name: string
 }
 
 export interface Categoria {

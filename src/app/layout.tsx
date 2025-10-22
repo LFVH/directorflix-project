@@ -1,10 +1,8 @@
 import './globals.css';
 import React, { Suspense } from 'react';
-import ClientProviders from "@/utils/Providers"
+import ClientProviders from "@/components/Providers"
 import { Inter, Poppins, Bebas_Neue } from 'next/font/google';
 import './globals.css';
-//import Footer from '@/components/Footer';
-import CtaSection from '@/components/CtaSection';
 
 const inter = Inter({ subsets: ['latin'] });
 const poppins = Poppins({

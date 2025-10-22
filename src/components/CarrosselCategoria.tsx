@@ -1,4 +1,4 @@
-// components/CarrosselCategoria.tsx - ATUALIZADO
+// components/CarrosselCategoria.tsx - CORRIGIDO
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
@@ -7,20 +7,30 @@ import ConteudoItem from './ConteudoItem'
 
 interface CarrosselCategoriaProps {
   categoria: CategoriaWithUrls
-  layout?: 'carrossel' | 'lista' // 🔥 NOVO: suporte a diferentes layouts
+  layout?: 'carrossel' | 'lista'
 }
 
 export default function CarrosselCategoria({ 
   categoria, 
-  layout = 'carrossel' // 🔥 Padrão é carrossel
+  layout = 'carrossel'
 }: CarrosselCategoriaProps) {
+  // 🔥 MOVER TODOS OS HOOKS PARA O TOPO (antes de qualquer condicional)
   const carrosselRef = useRef<HTMLDivElement>(null)
   const [showLeftArrow, setShowLeftArrow] = useState(false)
   const [showRightArrow, setShowRightArrow] = useState(true)
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollRequestRef = useRef<number>(0)
 
-  // 🔥 SE for layout lista, não renderiza o carrossel
+  // 🔥 CLEANUP EFFECT - SEMPRE chamado, independente do layout
+  useEffect(() => {
+    return () => {
+      if (scrollRequestRef.current) {
+        cancelAnimationFrame(scrollRequestRef.current)
+      }
+    }
+  }, [])
+
+  // 🔥 AGORA fazemos a renderização condicional DEPOIS de todos os hooks
   if (layout === 'lista') {
     return (
       <div className="relative">
@@ -34,7 +44,6 @@ export default function CarrosselCategoria({
           </p>
         )}
 
-        {/* 🔥 LAYOUT LISTA - Grid responsivo */}
         <div className="px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {categoria.conteudos.map((conteudo, index) => (
@@ -50,7 +59,7 @@ export default function CarrosselCategoria({
     )
   }
 
-  // 🔥 ABAIXO: Código original do carrossel (mantido para layout carrossel)
+  // 🔥 CÓDIGO DO CARROSSEL (apenas para layout carrossel)
   const SCROLL_DURATION = 600
   const SCROLL_AMOUNT = 400
 
@@ -125,28 +134,25 @@ export default function CarrosselCategoria({
     }
   }
 
+  // 🔥 EFFECTS ESPECÍFICOS DO CARROSSEL - só executam quando layout é carrossel
   useEffect(() => {
-    return () => {
-      if (scrollRequestRef.current) {
-        cancelAnimationFrame(scrollRequestRef.current)
+    if (layout === 'carrossel') {
+      updateArrows()
+      
+      const handleResize = () => {
+        setTimeout(updateArrows, 100)
       }
+
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [categoria.conteudos.length, layout]) // 🔥 Adicionar layout como dependência
 
   useEffect(() => {
-    updateArrows()
-    
-    const handleResize = () => {
+    if (layout === 'carrossel') {
       setTimeout(updateArrows, 100)
     }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [categoria.conteudos.length])
-
-  useEffect(() => {
-    setTimeout(updateArrows, 100)
-  }, [categoria.conteudos])
+  }, [categoria.conteudos, layout]) // 🔥 Adicionar layout como dependência
 
   return (
     <div className="relative group">
@@ -161,7 +167,6 @@ export default function CarrosselCategoria({
       )}
 
       <div className="relative">
-        {/* Seta Esquerda */}
         <button
           onClick={() => scroll('left')}
           className={`absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-lg ${
@@ -180,7 +185,6 @@ export default function CarrosselCategoria({
           </svg>
         </button>
 
-        {/* Carrossel */}
         <div className="relative px-8">
           <div
             ref={carrosselRef}
@@ -211,7 +215,6 @@ export default function CarrosselCategoria({
           )}
         </div>
 
-        {/* Seta Direita */}
         <button
           onClick={() => scroll('right')}
           className={`absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-lg ${

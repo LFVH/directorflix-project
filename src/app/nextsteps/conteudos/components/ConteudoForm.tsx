@@ -79,8 +79,8 @@ export default function ConteudoForm({ conteudo, categorias }: ConteudoFormProps
       }
 
       const url = conteudo 
-        ? `/api/letsgo/conteudo/${conteudo.id}`
-        : '/api/letsgo/conteudo'
+        ? `/api/nextsteps/conteudo/${conteudo.id}`
+        : '/api/nextsteps/conteudo'
 
       const method = conteudo ? 'PUT' : 'POST'
 

@@ -16,6 +16,7 @@ export interface ConteudoWithUrl {
   filename: string
   mimetype: string
   link?: string | null
+  data: Buffer
   linkext?: string | null // 🔥 link externo
   url: string
   createdAt: Date
@@ -29,11 +30,13 @@ export interface Categoria {
   createdAt: Date
 }
 
+
 export interface CategoriaWithUrls {
-  name: any
   id: string
-  nome: string
-  descricao?: string
-  conteudos: (Conteudo & { url: string })[]
-  createdAt: Date
+  nome: string | null
+  name: string | null
+  descricao?: string | null
+  conteudos: ConteudoWithUrl[] // 🔥 Usa o tipo corrigido
+  createdAt: string
+  updatedAt: string
 }

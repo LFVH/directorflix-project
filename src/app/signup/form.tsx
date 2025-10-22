@@ -1,8 +1,8 @@
 'use client';
 
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Label } from '@/components/signinsignup/label';
+import { Input } from '@/components/signinsignup/input';
+import { Button } from '@/components/signinsignup/button';
 import { signup } from '@/app/api/auth/auth/signup';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useState } from 'react';

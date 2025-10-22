@@ -1,4 +1,4 @@
-// components/HeroBanner.tsx
+// components/HeroBanner.tsx - ATUALIZADO
 'use client'
 
 import { CategoriaWithUrls } from '@/types'
@@ -11,11 +11,14 @@ interface HeroBannerProps {
 }
 
 export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBannerProps) {
+  
   if (categoriaFiltrada) return <div></div>;
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
-   const bannerConteudos = (categoriaFiltrada 
+  
+  const bannerConteudos = (categoriaFiltrada 
     ? categorias.find(c => c.id === categoriaFiltrada)?.conteudos || []
     : categorias.flatMap(c => c.conteudos)).slice(0, 5)
+  
   useEffect(() => {
     if (bannerConteudos.length <= 0) return
 
@@ -28,10 +31,24 @@ export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBanne
     return () => clearInterval(interval)
   }, [bannerConteudos.length])
 
+  // 🔥 FUNÇÃO PARA ABRIR LINK EXTERNO
+  const handleAssistirClick = () => {
+    if (currentBanner?.linkext) {
+      window.open(currentBanner.linkext, '_blank', 'noopener,noreferrer')
+    } else {
+      // 🔥 OPÇÃO 1: Mostrar alerta se não tiver link
+      alert('Este conteúdo não possui link externo disponível.')
+      
+      // 🔥 OPÇÃO 2: Ou abrir a própria imagem em nova aba
+      // window.open(currentBanner.url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   if (bannerConteudos.length === 0) return null
 
   const currentBanner = bannerConteudos[currentBannerIndex]
   if(!currentBanner || !currentBanner.url) return null
+  
   return (
     <div className="relative h-96 md:h-[500px] w-full overflow-hidden">
       {/* Imagem do Banner */}
@@ -51,13 +68,30 @@ export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBanne
             {currentBanner.filename.replace('.gif', '')}
           </h1>
           <div className="flex gap-4">
-            <button className="px-6 py-2 bg-white text-black font-semibold rounded hover:bg-gray-200 transition-colors">
+            {/* 🔥 BOTÃO ASSISTIR CLICÁVEL */}
+            <button 
+              onClick={handleAssistirClick}
+              className={`px-6 py-2 font-semibold rounded transition-colors flex items-center gap-2 ${
+                currentBanner.linkext
+                  ? 'bg-white text-black hover:bg-gray-200 cursor-pointer'
+                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              }`}
+              disabled={!currentBanner.linkext}
+              title={
+                currentBanner.linkext 
+                  ? `Abrir ${currentBanner.linkext}` 
+                  : 'Link externo não disponível'
+              }
+            >
               ▶ Assistir
-            </button>
-            <button className="px-6 py-2 bg-gray-600/70 text-white font-semibold rounded hover:bg-gray-600 transition-colors">
-              ℹ Mais Informações
+              {currentBanner.linkext && (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              )}
             </button>
           </div>
+        
         </div>
       </div>
 

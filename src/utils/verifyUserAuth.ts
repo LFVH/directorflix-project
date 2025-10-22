@@ -21,6 +21,13 @@ export async function verifyUser() {
   }
 }
 
+
+export async function isActuallyAdmin(userId: string) {
+  const adminUserIds = process.env.ADMIN_USER_IDS?.split(',') || [];
+  return adminUserIds.includes(userId);
+}
+
+
 export async function userExists(): Promise<Usuario | NextResponse>  {
   const session = await getServerSession(authHandler);
     if (!session || !session.id) {

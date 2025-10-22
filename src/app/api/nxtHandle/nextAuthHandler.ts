@@ -3,7 +3,7 @@ import prisma from "@/database/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from 'bcryptjs';
 import dayjs from "dayjs"
-import { logNow } from "@/utils/Logging";
+import { isActuallyAdmin } from "@/utils/verifyUserAuth";
 
 const AuthHandler :AuthOptions= {
   pages: {
@@ -37,14 +37,21 @@ const AuthHandler :AuthOptions= {
         if (!passwordMatch) {
           throw new Error("Senha incorreta.");
         }
-        return { id: user.id, name: user.name, email: user.email , status: user.statusAss}; // Retorna os dados do usuário autenticado
+         const isAdmin = await isActuallyAdmin(user.id);
+
+        return { 
+          id: user.id, 
+          name: user.name, 
+          email: user.email, 
+          status: user.statusAss,
+          role: isAdmin ? 'admin' : 'user'
+        }; 
       }
     }),
   ],
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
-        // Criando um refresh token no login
         const expiresIn = dayjs().add(7, "days").unix();
         await prisma.refreshToken.upsert({
           where: { userId: user.id },
@@ -56,6 +63,7 @@ const AuthHandler :AuthOptions= {
           email: user.email,
           name: user.name || null,
           status: user.status || null,
+          role: user.role || 'user',
         };
       }
       return token;
@@ -63,13 +71,11 @@ const AuthHandler :AuthOptions= {
 
   async session({ session, token }) {
     if (token.user) {
-      // Mantém todos os dados originais da session e adiciona/atualiza os campos
       session.user = {
-        ...session.user, // mantém os campos padrão (name, email, image)
-        ...token.user,   // adiciona os campos do token (id, status, etc)
+        ...session.user, 
+        ...token.user,   
       };
       
-      // Se você quer o status também no nível superior da session
       session.status = token.user.status;
       session.id = token.user.id;
     }

@@ -1,6 +1,6 @@
 // app/page.tsx
-import HeroCTA from '@/components/HeroCTA'
-import CategoriaShowcase from '@/components/CategoriaShowcase'
+import HeroCTA from '@/components/cta/HeroCTA'
+import CategoriaShowcase from '@/components/cta/CategoriaShowcase'
 
 export default function Home() {
   return (

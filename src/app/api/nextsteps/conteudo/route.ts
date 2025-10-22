@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma"
-import { verifyUser } from "@/utils/verifyUserAuth"
+import { isActuallyAdmin, verifyUser } from "@/utils/verifyUserAuth"
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,33 +10,10 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
-    const search = searchParams.get('search') || ''
     const skip = (page - 1) * limit
-
-    // 🔥 CONSTRUIR WHERE COM BUSCA
-    const where: any = {}
-
-    if (search) {
-      where.OR = [
-        { nome: { contains: search, mode: 'insensitive' } },
-        { name: { contains: search, mode: 'insensitive' } },
-        { filename: { contains: search, mode: 'insensitive' } },
-        {
-          categorias: {
-            some: {
-              OR: [
-                { nome: { contains: search, mode: 'insensitive' } },
-                { name: { contains: search, mode: 'insensitive' } }
-              ]
-            }
-          }
-        }
-      ]
-    }
 
     const [conteudos, total] = await Promise.all([
       prisma.conteudo.findMany({
-        where,
         include: {
           categorias: {
             select: {
@@ -52,7 +29,7 @@ export async function GET(request: NextRequest) {
         skip,
         take: limit
       }),
-      prisma.conteudo.count({ where })
+      prisma.conteudo.count()
     ])
 
     const totalPages = Math.ceil(total / limit)
@@ -85,7 +62,10 @@ export async function POST(request: NextRequest) {
   try {
     const userId = await verifyUser()
     if (userId instanceof NextResponse) return userId
-
+    if(!isActuallyAdmin(userId)) return NextResponse.json(
+        { success: false, error: '404 Not Found' },
+        { status: 403 }
+      )
     const formData = await request.formData()
     
     const nome = formData.get('nome') as string

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server"
 import type { NextFetchEvent, NextRequest } from "next/server"
 import { logNow } from "./utils/Logging"
 import { getToken } from "next-auth/jwt"
+import { isActuallyAdmin } from "./utils/verifyUserAuth"
 
 export const config = {
   matcher: ["/:path*"],
@@ -29,7 +30,10 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   if (request.nextUrl.pathname === "/" && token) {
     return NextResponse.redirect(new URL("/letsgo", request.url))
   }
-
+  const adminRoutes = process.env.ADMIN_ROUTES?.split(',') || ['/admin', '/api/admin'];
+  const isAdminRoute = adminRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  );
   if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
     const authResult = await authMiddleware(request as NextRequestWithAuth, event)
     if (authResult) return authResult
@@ -58,6 +62,25 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     } catch(error){
       console.log(error);
       return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+  if (isAdminRoute) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    const userRole = (token as any)?.user?.role;
+    const userId = (token as any)?.user?.id;
+
+    
+    if (userRole !== 'admin' || !isActuallyAdmin(userId)) {
+      if (request.nextUrl.pathname.startsWith('/api')) {
+        return new NextResponse(
+          JSON.stringify({ error: '404 Not Found' }), 
+          { status: 403 }
+        );
+      }
+      return NextResponse.redirect(new URL('/unauthorized', request.url));
     }
   }
   return NextResponse.next()

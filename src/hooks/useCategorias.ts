@@ -1,4 +1,3 @@
-// hooks/useCategorias.ts
 import { useQuery } from '@tanstack/react-query'
 import { CategoriaWithUrls } from '@/types'
 

@@ -78,7 +78,7 @@ export async function DELETE(
 
     // Verificar se categoria existe
     const categoria = await prisma.categoria.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt((await params).id) },
       include: {
         _count: {
           select: {

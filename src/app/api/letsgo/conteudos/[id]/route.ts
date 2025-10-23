@@ -1,4 +1,3 @@
-// app/api/letsgo/conteudos/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma";
 import { verifyUser } from '@/utils/verifyUserAuth';

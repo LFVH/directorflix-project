@@ -20,12 +20,6 @@ export default function HeaderWithCategories() {
   
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-
-  // 🔥 LOG do estado atual do filtro
-  useEffect(() => {
-    console.log('📊 Header - Estado do Filtro:', { filtroAtivo, tipoFiltro, termoPesquisa })
-  }, [filtroAtivo, tipoFiltro, termoPesquisa])
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {

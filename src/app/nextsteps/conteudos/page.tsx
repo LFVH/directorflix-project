@@ -1,4 +1,3 @@
-// src/app/letsgo/conteudos/page.tsx - ATUALIZADA
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -117,7 +116,7 @@ export default function ConteudosPage() {
             />
             
             <Link
-              href="/letsgo/conteudos/novo"
+              href="/nextsteps/conteudos/novo"
               className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors whitespace-nowrap"
             >
               + Novo Conteúdo
@@ -192,7 +191,7 @@ export default function ConteudosPage() {
                 {/* Ações */}
                 <div className="flex gap-2">
                   <Link
-                    href={`/letsgo/conteudos/editar/${conteudo.id}`}
+                    href={`/nextsteps/conteudos/editar/${conteudo.id}`}
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded transition-colors text-sm"
                   >
                     Editar
@@ -228,7 +227,7 @@ export default function ConteudosPage() {
                 <p className="text-xl">Nenhum conteúdo encontrado</p>
                 <p className="mt-2">Crie seu primeiro conteúdo para começar</p>
                 <Link
-                  href="/letsgo/conteudos/novo"
+                  href="/nextsteps/conteudos/novo"
                   className="mt-4 inline-block px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
                 >
                   Criar Primeiro Conteúdo

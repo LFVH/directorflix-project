@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="bg-black">
       <HeroCTA />
-      <CategoriaShowcase />
+    {/* <CategoriaShowcase /> */}
     </main>
   )
 }

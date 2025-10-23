@@ -5,6 +5,9 @@ import { logNow } from "./utils/Logging"
 import { getToken } from "next-auth/jwt"
 import { isActuallyAdmin } from "./utils/verifyUserAuth"
 
+export const runtime = 'nodejs'
+
+
 export const config = {
   matcher: ["/:path*"],
 }
@@ -72,15 +75,14 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     const userRole = (token as any)?.user?.role;
     const userId = (token as any)?.user?.id;
 
-    
     if (userRole !== 'admin' || !isActuallyAdmin(userId)) {
       if (request.nextUrl.pathname.startsWith('/api')) {
         return new NextResponse(
-          JSON.stringify({ error: '404 Not Found' }), 
+          JSON.stringify({ error: '404 Note Found' }), 
           { status: 403 }
         );
       }
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
+      return NextResponse.redirect(new URL('/_not-found', request.url));
     }
   }
   return NextResponse.next()

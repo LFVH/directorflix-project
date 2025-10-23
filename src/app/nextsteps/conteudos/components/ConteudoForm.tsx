@@ -1,4 +1,3 @@
-// src/app/letsgo/conteudos/components/ConteudoForm.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -92,7 +91,7 @@ export default function ConteudoForm({ conteudo, categorias }: ConteudoFormProps
       const result = await response.json()
 
       if (result.success) {
-        router.push('/letsgo/conteudos')
+        router.push('/nextsteps/conteudos')
         router.refresh()
       } else {
         alert(result.error || 'Erro ao salvar conteúdo')

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/database/prisma";
 import { isActuallyAdmin, verifyUser } from "@/utils/verifyUserAuth";
 
-// src/app/api/letsgo/conteudos/[id]/route.ts
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }

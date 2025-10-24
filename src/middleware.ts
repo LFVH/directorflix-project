@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   }
 
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token && !request.nextUrl.pathname.startsWith('/login') ) {
+  if (!token && (!request.nextUrl.pathname.startsWith('/login') || !request.nextUrl.pathname.startsWith('/signup') )) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)

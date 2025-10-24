@@ -33,7 +33,7 @@ export default function ConteudosFiltradosComScroll({
     termoPesquisa
   })
 
-  const observerRef = useRef<IntersectionObserver>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   const shouldUseListLayout = categoriasFiltradas.length === 1 && 

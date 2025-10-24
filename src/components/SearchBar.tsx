@@ -17,7 +17,7 @@ export default function SearchBar({
 }: SearchBarProps) {
   const [localQuery, setLocalQuery] = useState(value)
   const inputRef = useRef<HTMLInputElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isControlled = value !== undefined 
 
   useEffect(() => {

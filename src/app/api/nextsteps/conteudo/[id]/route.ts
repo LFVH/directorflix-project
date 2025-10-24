@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/database/prisma";
-import { isActuallyAdmin, verifyUser } from "@/utils/verifyUserAuth";
+import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth";
 
 export async function DELETE(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function DELETE(
   try {
     const userId = await verifyUser()
     if (userId instanceof NextResponse) return userId
-    if(!isActuallyAdmin(userId)) return NextResponse.json(
+    if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
       )

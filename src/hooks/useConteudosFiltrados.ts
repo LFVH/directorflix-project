@@ -15,31 +15,31 @@ export const useConteudosFiltrados = ({
   termoPesquisa 
 }: UseConteudosFiltradosProps) => {
   const [categoriasFiltradas, setCategoriasFiltradas] = useState<CategoriaWithUrls[]>([])
-  const [page, setPage] = useState(1
-    
-  )
+  const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [loading, setLoading] = useState(false)
 
   const lastFilterRef = useRef({ filtroAtivo, tipoFiltro, termoPesquisa })
 
-  const filtrarCategorias = (categoriasParaFiltrar: CategoriaWithUrls[], pageNum: number = 1) => {
+  
+
+const getCategoriasPaginadas = (categoriasParaFiltrar: CategoriaWithUrls[], pageNum: number = 1) => {
     if (!filtroAtivo) {
       const limit = 3
-      const startIndex = (pageNum - 1) * limit
-      const endIndex = startIndex + limit
-      
+      const startIndex = 0 
+      const endIndex = pageNum * limit
+            
       const categoriasPaginas = categoriasParaFiltrar.slice(0, endIndex)
       const temMais = endIndex < categoriasParaFiltrar.length
-            
+      
       return {
         categorias: categoriasPaginas,
         hasMore: temMais
       }
     }
 
+    // ... resto do código permanece igual
     if (tipoFiltro === 'categoria') {
-      // Filtro por categoria - mostra apenas a categoria selecionada
       const categoriaFiltrada = categoriasParaFiltrar.find(c => c.id === filtroAtivo)    
       return {
         categorias: categoriaFiltrada ? [categoriaFiltrada] : [],
@@ -77,18 +77,11 @@ export const useConteudosFiltrados = ({
     if (loading || !hasMore || filtroAtivo) {
       return
     }
-    
-    setLoading(true)
-    console.log('📥 Carregando mais categorias...', { page: page + 1 })
-    
+    setLoading(true)    
     try {
-      // Simula carregamento
       setTimeout(() => {
-        const result = filtrarCategorias(categorias, page + 1)
-        setCategoriasFiltradas(prev => {
-          const novasCategorias = [...prev, ...result.categorias]
-          return novasCategorias
-        })
+        const result = getCategoriasPaginadas(categorias, page + 1)
+        setCategoriasFiltradas(result.categorias)
         setHasMore(result.hasMore)
         setPage(prev => prev + 1)
         setLoading(false)
@@ -99,7 +92,6 @@ export const useConteudosFiltrados = ({
     }
   }
 
-  // CORREÇÃO: useEffect mais controlado
   useEffect(() => {
     const filtersChanged = 
       lastFilterRef.current.filtroAtivo !== filtroAtivo ||
@@ -115,7 +107,7 @@ export const useConteudosFiltrados = ({
     setLoading(true)
     setPage(1)
 
-    const result = filtrarCategorias(categorias, 1)
+    const result = getCategoriasPaginadas(categorias, 1)
     setCategoriasFiltradas(result.categorias)
     setHasMore(result.hasMore)
     setLoading(false)
@@ -130,3 +122,4 @@ export const useConteudosFiltrados = ({
     tipoFiltro 
   }
 }
+

@@ -3,7 +3,7 @@ import prisma from "@/database/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from 'bcryptjs';
 import dayjs from "dayjs"
-import { isActuallyAdmin } from "@/utils/verifyUserAuth";
+import { isActuallyChief as isActuallyChief } from "@/utils/verifyUserAuth";
 
 const AuthHandler :AuthOptions= {
   pages: {
@@ -21,30 +21,27 @@ const AuthHandler :AuthOptions= {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Credenciais inválidas.");
         }
-      
         const user = await prisma.usuario.findUnique({
           where: { email: credentials.email },
         });
-      
         if (!user) {
           throw new Error("Usuário não encontrado.");
         }
         if (user.isBlocked) {
           throw new Error("Código 101");
         }
-      
         const passwordMatch = await bcrypt.compare(credentials.password, user.password);
         if (!passwordMatch) {
           throw new Error("Senha incorreta.");
         }
-         const isAdmin = await isActuallyAdmin(user.id);
+         const isAdmin = await isActuallyChief(user.id);
 
         return { 
           id: user.id, 
           name: user.name, 
           email: user.email, 
           status: user.statusAss,
-          role: isAdmin ? 'admin' : 'user'
+          role: isAdmin ? 'chief' : 'user'
         }; 
       }
     }),

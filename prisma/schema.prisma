@@ -18,7 +18,7 @@ model Usuario {
   dtFimPremium DateTime?
   stripeCliId  String?  @unique
   stripeSubId  String?  @unique
-  statusAss    String   @default("inativo") // "ativo", "cancelado", "pendente"
+  statusAss    String   @default("inativo") // "aberta?","ativo", "cancelado", "pendente"
   plano        String?  // "mensal", "anual", "semestral"
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())

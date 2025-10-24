@@ -35,16 +35,10 @@ export default function HeaderWithCategories() {
   const categoriasRestantes = categorias?.slice(5) || []
 
   const handleCategoriaClick = (categoriaId: string) => {
-    console.group('🖱️ handleCategoriaClick')
-    console.log('Categoria clicada:', categoriaId)
-    console.log('Filtro atual:', filtroAtivo)
-    console.log('Tipo filtro atual:', tipoFiltro)
     
     if (filtroAtivo === categoriaId && tipoFiltro === 'categoria') {
-      console.log('✅ Já está selecionada, limpando...')
       limparFiltros()
     } else {
-      console.log('🔄 Aplicando novo filtro...')
       setFiltroCategoria(categoriaId)
     }
     setIsDropdownOpen(false)
@@ -52,17 +46,14 @@ export default function HeaderWithCategories() {
   }
 
   const handleInicioClick = () => {
-    console.log('🏠 Início clicado - limpando filtros')
     limparFiltros()
   }
 
   const handleSearch = (termo: string) => {
-    console.log('🔍 Search alterado:', termo)
     setFiltroPesquisa(termo)
   }
 
   const handleClearSearch = () => {
-    console.log('🧹 SearchBar limpo')
   }
 
   const handleClearAllFilters = () => {

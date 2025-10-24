@@ -3,13 +3,13 @@ import { NextResponse } from "next/server"
 import type { NextFetchEvent, NextRequest } from "next/server"
 import { logNow } from "./utils/Logging"
 import { getToken } from "next-auth/jwt"
-import { isActuallyAdmin } from "./utils/verifyUserAuth"
+import { isActuallyChief as isActuallyChief } from "./utils/verifyUserAuth"
 
 export const runtime = 'nodejs'
 
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
 }
 
 const authMiddleware = withAuth({
@@ -26,28 +26,48 @@ const authMiddleware = withAuth({
 })
 
 export async function middleware(request: NextRequest, event: NextFetchEvent) { 
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (request.nextUrl.pathname.startsWith("/login") && token) {
-    return NextResponse.redirect(new URL("/letsgo", request.url));
+  
+  const appRoutes = process.env.APP_ROUTES?.split(',') || [
+    '/', '/login'
+  ];
+  const currentPath = request.nextUrl.pathname;
+  if (currentPath.startsWith('/_next') || 
+      currentPath.startsWith('/static') ||
+      currentPath.includes('.') && !currentPath.includes('/api/')) {
+    return NextResponse.next();
   }
-  if (request.nextUrl.pathname === "/" && token) {
-    return NextResponse.redirect(new URL("/letsgo", request.url))
-  }
-  const adminRoutes = process.env.ADMIN_ROUTES?.split(',') || ['/admin', '/api/admin'];
-  const isAdminRoute = adminRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
+  const isAppRoute = appRoutes.some(route => 
+    currentPath === route || currentPath.startsWith(route + '/')
   );
-  if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
-    const authResult = await authMiddleware(request as NextRequestWithAuth, event)
-    if (authResult) return authResult
-    if (request.nextUrl.pathname.startsWith('/api')) {
-      const origin = request.headers.get('origin')
-      const allowedDomain = process.env.ALLOWED_DOMAIN || process.env.NEXTAUTH_URL
+  if (!isAppRoute) {
+    console.log(`🚫 Rota ignorada: ${currentPath}`);
+    return NextResponse.next();
+  }
 
-      if (origin && origin !== allowedDomain) {
-        return new NextResponse('Acesso não autorizado', { status: 403 })
-      }
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  if (!token && !request.nextUrl.pathname.startsWith('/login') ) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  const authResult = await authMiddleware(request as NextRequestWithAuth, event)
+  if (authResult) return authResult
+  if(token && token.user?.status == "ativo"){
+    if (request.nextUrl.pathname.startsWith("/login") ||
+        request.nextUrl.pathname === "/" ||
+        request.nextUrl.pathname.startsWith("/checkout")) {
+      return NextResponse.redirect(new URL("/letsgo", request.url));
     }
+  }
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    const origin = request.headers.get('origin')
+    const allowedDomain = process.env.ALLOWED_DOMAIN || process.env.NEXTAUTH_URL
+
+    if (origin && origin !== allowedDomain) {
+      logNow("origin:");
+      console.log(origin)
+      return new NextResponse('404', { status: 403 })
+    }
+  }
+  if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
     try {
       const response  = await fetch(`${request.nextUrl.origin}/api/auth-v`, { 
         method: "GET",
@@ -67,18 +87,18 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
-  if (isAdminRoute) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-
+  const chiefRoutes = process.env.CHIEF_ROUTES?.split(',') || ['/admin'];
+  const isChiefRoute = chiefRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  );
+  if (isChiefRoute) {
     const userRole = (token as any)?.user?.role;
     const userId = (token as any)?.user?.id;
 
-    if (userRole !== 'admin' || !isActuallyAdmin(userId)) {
+    if (userRole !== 'chief' || !isActuallyChief(userId)) {
       if (request.nextUrl.pathname.startsWith('/api')) {
         return new NextResponse(
-          JSON.stringify({ error: '404 Note Found' }), 
+          JSON.stringify({ error: '404 Not Found' }), 
           { status: 403 }
         );
       }

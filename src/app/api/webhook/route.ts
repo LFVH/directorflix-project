@@ -64,9 +64,7 @@ export async function POST(req: Request) {
 
     case "checkout.session.expired":
       if (event.data.object.payment_status === "unpaid") {
-        // O cliente saiu do checkout e expirou :(
         const userId = event.data.object.metadata?.userId;
-        console.log("checkout expirado", userId);
       }
     break;
 
@@ -114,7 +112,7 @@ export async function POST(req: Request) {
            plano,
            dtIniPremium: new Date(),
            dtFimPremium: currentPeriodEnd,
-           statusAss: "ativa",
+           statusAss: "ativo",
          },
        });
 

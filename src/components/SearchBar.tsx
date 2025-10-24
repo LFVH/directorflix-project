@@ -1,4 +1,3 @@
-// components/SearchBar.tsx - VERSÃO DEFENSIVA
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
@@ -19,25 +18,18 @@ export default function SearchBar({
   const [localQuery, setLocalQuery] = useState(value)
   const inputRef = useRef<HTMLInputElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout>()
-  const isControlled = value !== undefined // 🔥 Sabe se é controlado
+  const isControlled = value !== undefined 
 
-  // 🔥 DEBOUNCE SEGURO: Só dispara para termos de busca válidos
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
     }
 
-    // 🔥 REGRAS MAIS RESTRITIVAS:
-    // - Só busca com 2+ caracteres
-    // - NUNCA dispara busca vazia automaticamente
-    // - Só dispara se o usuário digitou (não durante sincronização)
     if (localQuery.length >= 2) {
       timeoutRef.current = setTimeout(() => {
-        console.log('🔍 SearchBar: buscando termo válido')
         onSearch(localQuery)
       }, 300)
     }
-    // 🔥 NÃO faz nada se localQuery estiver vazio - isso evita o reset!
 
     return () => {
       if (timeoutRef.current) {
@@ -46,18 +38,15 @@ export default function SearchBar({
     }
   }, [localQuery, onSearch])
 
-  // 🔥 SINCRONIZAÇÃO SEGURA: Só atualiza se realmente mudou
   useEffect(() => {
     if (isControlled && value !== localQuery) {
-      console.log('🔄 SearchBar: sincronizando com valor externo')
       setLocalQuery(value)
     }
-  }, [value, isControlled]) // 🔥 localQuery NÃO é dependência
+  }, [value, isControlled])
 
   const handleClear = useCallback(() => {
-    console.log('🧹 SearchBar: limpando manualmente')
     setLocalQuery('')
-    onSearch('') // 🔥 Só limpa quando o usuário explicitamente clica
+    onSearch('')
     onClear?.()
     inputRef.current?.focus()
   }, [onSearch, onClear])

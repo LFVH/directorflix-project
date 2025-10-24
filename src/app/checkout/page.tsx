@@ -72,7 +72,6 @@ export default function CheckoutPage() {
       </div>
     );
   }
-  console.log(session)
   if (session?.status === 'ativo'){
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

@@ -2,8 +2,11 @@
   "name": "directflix-project",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "dev": "npx prisma db push && npx prisma generate && next dev",

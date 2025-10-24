@@ -1,7 +1,7 @@
 // src/app/api/nextsteps/categorias/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma"
-import { isActuallyAdmin, verifyUser } from "@/utils/verifyUserAuth"
+import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth"
 import { logNow } from '@/utils/Logging'
 
 export async function GET(request: NextRequest) {
@@ -75,18 +75,12 @@ export async function POST(request: NextRequest) {
   try {
     const userId = await verifyUser()
     if (userId instanceof NextResponse) return userId
-    if(!isActuallyAdmin(userId)) return NextResponse.json(
+    if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
       )
     const body = await request.json()
     const { nome, name, descricao } = body
-    logNow("nome, name, descr")
-    console.log(nome)
-    logNow(" name, descr")
-        console.log(name)
-    logNow(" descr")
-            console.log(descricao)
     
     // Validação básica
     if (!nome && !name) {

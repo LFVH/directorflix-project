@@ -22,8 +22,8 @@ export async function verifyUser() {
 }
 
 
-export async function isActuallyAdmin(userId: string) {
-  const adminUserIds = process.env.ADMIN_USER_IDS?.split(',') || [];
+export async function isActuallyChief(userId: string) {
+  const adminUserIds = process.env.CHIEF_USER_IDS?.split(',') || [];
   return adminUserIds.includes(userId);
 }
 

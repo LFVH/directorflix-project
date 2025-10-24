@@ -1,4 +1,3 @@
-// app/letsgo/page.tsx - Versão Final
 'use client'
 
 import { useGlobalFilter } from '@/hooks/useGlobalFilter'
@@ -21,13 +20,11 @@ export default function DirectorPage() {
       <HeaderWithCategories />
       
       <main className="pt-20">
-        {/* Hero Banner */}
         <HeroBanner 
           categorias={categorias || []}
           categoriaFiltrada={tipoFiltro === 'categoria' ? filtroAtivo : null}
         />
         
-        {/* Conteúdos com Filtro + Scroll Infinito + Carrosseis Circulares */}
         <ConteudosFiltradosComScroll 
           categorias={categorias || []}
           filtroAtivo={filtroAtivo}

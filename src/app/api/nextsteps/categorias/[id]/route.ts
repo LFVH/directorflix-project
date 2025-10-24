@@ -5,7 +5,7 @@ import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth"
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()
@@ -19,7 +19,7 @@ export async function PUT(
 
     // Verificar se categoria existe
     const categoriaExistente = await prisma.categoria.findUnique({
-      where: { id: parseInt(params.id) }
+      where: { id: parseInt((await params).id) }
     })
 
     if (!categoriaExistente) {
@@ -30,7 +30,7 @@ export async function PUT(
     }
 
     const categoria = await prisma.categoria.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt((await params).id) },
       data: {
         nome: nome !== undefined ? nome : categoriaExistente.nome,
         name: name !== undefined ? name : categoriaExistente.name,
@@ -70,7 +70,7 @@ export async function PUT(
 // src/app/api/nextsteps/categorias/[id]/route.ts
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()
@@ -126,14 +126,14 @@ export async function DELETE(
 // src/app/api/nextsteps/categorias/[id]/route.ts
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()
     if (userId instanceof NextResponse) return userId
 
     const categoria = await prisma.categoria.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt((await params).id) },
       include: {
         _count: {
           select: {

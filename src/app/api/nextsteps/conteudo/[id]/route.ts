@@ -4,7 +4,7 @@ import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()
@@ -32,7 +32,7 @@ export async function DELETE(
 //muito simples, usado o do conteudos
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()
@@ -72,7 +72,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
     const userId = await verifyUser()

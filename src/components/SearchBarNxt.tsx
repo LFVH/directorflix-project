@@ -15,7 +15,7 @@ export default function SearchBarNxt({
 }: SearchBarNxtProps) {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(null)
 
   // Debounce otimizado para admin
   useEffect(() => {

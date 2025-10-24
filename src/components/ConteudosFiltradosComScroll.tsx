@@ -33,10 +33,9 @@ export default function ConteudosFiltradosComScroll({
     termoPesquisa
   })
 
-  const observerRef = useRef<IntersectionObserver>()
+  const observerRef = useRef<IntersectionObserver>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
-  // 🔥 DETERMINAR LAYOUT: lista quando há apenas 1 categoria (filtro ativo ou busca)
   const shouldUseListLayout = categoriasFiltradas.length === 1 && 
     (tipoFiltro === 'categoria' || tipoFiltro === 'search')
 

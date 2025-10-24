@@ -45,11 +45,12 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   }
 
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token && (!request.nextUrl.pathname.startsWith('/login') || !request.nextUrl.pathname.startsWith('/signup') )) {
+  if (!token && (!request.nextUrl.pathname.startsWith('/login') || 
+                  !request.nextUrl.pathname.startsWith('/signup') )) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)
-  if (authResult) return authResult
+  if (authResult && !request.nextUrl.pathname.startsWith('/signup')) return authResult
   if(token && token.user?.status == "ativo"){
     if (request.nextUrl.pathname.startsWith("/login") ||
         request.nextUrl.pathname === "/" ||

@@ -46,7 +46,9 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   logNow("passei 1")
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/signup')) {
-    logNow("entrei")
+    logNow("entrei token")
+    console.log(token)
+    console.log(currentPath)
     return NextResponse.redirect(new URL('/login', request.url));
   }
   logNow("passei 2")

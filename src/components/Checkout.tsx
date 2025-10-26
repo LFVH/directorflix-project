@@ -107,35 +107,35 @@ export default function Checkout({
             onClick={() => setAssinatura(1)}
           >
             <div className="px-6 py-8 bg-white">
-              <h3 className="text-2xl font-bold text-center text-white">Plano Mensal</h3>
+              <h3 className="text-2xl font-bold text-center text-gray-700">Plano Mensal</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold text-white">R$30,00</span>
-                <span className="text-lg font-medium text-white self-end">/mês</span>
+                <span className="text-4xl font-extrabold text-gray-700">R$30,00</span>
+                <span className="text-lg font-medium text-gray-700 self-end">/mês</span>
               </div>
               <ul className="mt-6 space-y-4">
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Referências apuradas</span>
+                  <span className="ml-3 text-gray-700">Referências apuradas</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Criatividade</span>
+                  <span className="ml-3 text-gray-700">Criatividade</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Atualização diária</span>
+                  <span className="ml-3 text-gray-700">Atualização diária</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Acesso 24/7</span>
+                  <span className="ml-3 text-gray-700">Acesso 24/7</span>
                 </li>
               </ul>
             </div>
@@ -195,12 +195,12 @@ export default function Checkout({
             onClick={() => setAssinatura(3)}
           >
             <div className="px-6 py-8 bg-white">
-              <h3 className="text-2xl font-bold text-center text-white">Plano Semestral</h3>
+              <h3 className="text-2xl font-bold text-center text-gray-700">Plano Semestral</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold text-white">R$160,00</span>
-                <span className="text-lg font-medium text-white self-end">/semestre</span>
+                <span className="text-4xl font-extrabold text-gray-700">R$160,00</span>
+                <span className="text-lg font-medium text-gray-700 self-end">/semestre</span>
               </div>
-              <div className="mt-2 text-center text-white">
+              <div className="mt-2 text-center text-gray-700">
                 <span>Economize 40%</span>
               </div>
               <ul className="mt-6 space-y-4">
@@ -208,13 +208,13 @@ export default function Checkout({
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Todos os benefícios do trimestral</span>
+                  <span className="ml-3 text-gray-700">Todos os benefícios do trimestral</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-white">Mais foco no que realmente faz diferença!</span>
+                  <span className="ml-3 text-gray-700">Mais foco no que realmente faz diferença!</span>
                 </li>
               </ul>
             </div>

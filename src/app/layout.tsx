@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import ClientProviders from "@/components/Providers"
 import { Inter, Poppins, Bebas_Neue } from 'next/font/google';
 import './globals.css';
+import DebugVercel from '@/components/DebugVercel';
 
 const inter = Inter({ subsets: ['latin'] });
 const poppins = Poppins({
@@ -35,6 +36,7 @@ export default function RootLayout({
           <ClientProviders>
             <main className="flex-grow">
             <Suspense fallback={<div>Carregando página...</div>}>
+            <DebugVercel />
                 {children}
             </Suspense>
             </main>        

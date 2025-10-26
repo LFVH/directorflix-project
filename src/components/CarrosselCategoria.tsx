@@ -134,7 +134,6 @@ export default function CarrosselCategoria({
     }
   }
 
-  // 🔥 EFFECTS ESPECÍFICOS DO CARROSSEL - só executam quando layout é carrossel
   useEffect(() => {
     if (layout === 'carrossel') {
       updateArrows()
@@ -146,8 +145,7 @@ export default function CarrosselCategoria({
       window.addEventListener('resize', handleResize)
       return () => window.removeEventListener('resize', handleResize)
     }
-  }, [categoria.conteudos.length, layout]) // 🔥 Adicionar layout como dependência
-
+  }, [categoria.conteudos.length, layout])
   useEffect(() => {
     if (layout === 'carrossel') {
       setTimeout(updateArrows, 100)

@@ -197,7 +197,7 @@ export default function Checkout({
             <div className="px-6 py-8 bg-white">
               <h3 className="text-2xl font-bold text-center text-white">Plano Semestral</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold text-white">R$175,00</span>
+                <span className="text-4xl font-extrabold text-white">R$160,00</span>
                 <span className="text-lg font-medium text-white self-end">/semestre</span>
               </div>
               <div className="mt-2 text-center text-white">

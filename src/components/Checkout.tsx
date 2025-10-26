@@ -87,14 +87,14 @@ export default function Checkout({
   }
 
   return (
-    <div className={`bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`bg-black py-12 px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="max-w-7xl mx-auto">
         {showTitle && (
           <div className="text-center mb-12">
-            <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
               Escolha seu plano
             </h1>
-            <p className="mt-3 text-xl text-gray-500">
+            <p className="mt-3 text-xl text-white">
               Assine agora e tenha acesso a todos os conteúdos exclusivos
             </p>
           </div>
@@ -107,41 +107,41 @@ export default function Checkout({
             onClick={() => setAssinatura(1)}
           >
             <div className="px-6 py-8 bg-white">
-              <h3 className="text-2xl font-bold text-center text-gray-900">Plano Mensal</h3>
+              <h3 className="text-2xl font-bold text-center text-white">Plano Mensal</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold text-gray-900">R$20,00</span>
-                <span className="text-lg font-medium text-gray-500 self-end">/mês</span>
+                <span className="text-4xl font-extrabold text-white">R$30,00</span>
+                <span className="text-lg font-medium text-white self-end">/mês</span>
               </div>
               <ul className="mt-6 space-y-4">
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Registro de treinos</span>
+                  <span className="ml-3 text-white">Referências apuradas</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Visualizar Progressão</span>
+                  <span className="ml-3 text-white">Criatividade</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Registro diário</span>
+                  <span className="ml-3 text-white">Atualização diária</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Acesso 24/7</span>
+                  <span className="ml-3 text-white">Acesso 24/7</span>
                 </li>
               </ul>
             </div>
             <div className="px-6 py-4 bg-gray-50 text-center">
               <button
-                className={`w-full px-4 py-3 rounded-md font-medium ${assinatura === 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                className={`w-full px-4 py-3 rounded-md font-medium ${assinatura === 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-white'}`}
               >
                 {assinatura === 1 ? 'Selecionado' : 'Selecionar'}
               </button>
@@ -157,9 +157,9 @@ export default function Checkout({
               <div className="bg-yellow-400 text-yellow-900 px-3 py-1 text-xs font-bold rounded-bl-lg">
                 MAIS POPULAR
               </div>
-              <h3 className="text-2xl font-bold text-center">Plano semestral</h3>
+              <h3 className="text-2xl font-bold text-center">Plano Trimestral</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold">R$96,00</span>
+                <span className="text-4xl font-extrabold">R$85,00</span>
                 <span className="text-lg font-medium opacity-80 self-end">/trimestre</span>
               </div>
               <div className="mt-2 text-center text-purple-100">
@@ -195,12 +195,12 @@ export default function Checkout({
             onClick={() => setAssinatura(3)}
           >
             <div className="px-6 py-8 bg-white">
-              <h3 className="text-2xl font-bold text-center text-gray-900">Plano Anual</h3>
+              <h3 className="text-2xl font-bold text-center text-white">Plano Semestral</h3>
               <div className="mt-4 flex justify-center">
-                <span className="text-4xl font-extrabold text-gray-900">R$144,00</span>
-                <span className="text-lg font-medium text-gray-500 self-end">/ano</span>
+                <span className="text-4xl font-extrabold text-white">R$175,00</span>
+                <span className="text-lg font-medium text-white self-end">/semestre</span>
               </div>
-              <div className="mt-2 text-center text-gray-500">
+              <div className="mt-2 text-center text-white">
                 <span>Economize 40%</span>
               </div>
               <ul className="mt-6 space-y-4">
@@ -208,19 +208,19 @@ export default function Checkout({
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Todos os benefícios do trimestral</span>
+                  <span className="ml-3 text-white">Todos os benefícios do trimestral</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="ml-3 text-gray-700">Mais foco no que realmente faz diferença!</span>
+                  <span className="ml-3 text-white">Mais foco no que realmente faz diferença!</span>
                 </li>
               </ul>
             </div>
             <div className="px-6 py-4 bg-gray-50 text-center">
               <button
-                className={`w-full px-4 py-3 rounded-md font-medium ${assinatura === 3 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                className={`w-full px-4 py-3 rounded-md font-medium ${assinatura === 3 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-white'}`}
               >
                 {assinatura === 3 ? 'Selecionado' : 'Selecionar'}
               </button>
@@ -243,7 +243,7 @@ export default function Checkout({
           <div className="mt-4 text-center">
             <button
               onClick={onCancel}
-              className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-6 py-2 text-white hover:text-white transition-colors"
             >
               Cancelar
             </button>

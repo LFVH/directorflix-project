@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { SignupForm } from '@/app/signup/form';
+import { SignupForm } from '@/app/(auth)/signup/form';
 export default function Page() {
   const router = useRouter();
   return (
-    <div className="flex flex-col p-4 lg:w-1/3">
+    <div className="flex flex-col p-4">
       <div className="text-center">
         <h1 className="text-3xl font-bold">Create an account</h1>
         <p className="text-gray-500">Enter your information to get started</p>

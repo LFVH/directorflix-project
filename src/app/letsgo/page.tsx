@@ -36,7 +36,7 @@ export default function DirectorPage() {
       <footer className="bg-black border-t border-gray-800 py-8 px-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-gray-400 text-center">
-            © {new Date().getFullYear()} Director Flix. Todos os direitos reservados.
+            © {new Date().getFullYear()} Director's Flix. Todos os direitos reservados.
           </p>
         </div>
       </footer>

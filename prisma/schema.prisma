@@ -20,6 +20,8 @@ model Usuario {
   stripeSubId  String?  @unique
   statusAss    String   @default("inativo") // "aberta?","ativo", "cancelado", "pendente"
   plano        String?  // "mensal", "anual", "semestral"
+  refreshPasswordToken        String?   //TODO esqueci senha 
+  refreshPasswordTokenExpires DateTime? //TODO esqueci senha
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())
   @@index([stripeCliId])

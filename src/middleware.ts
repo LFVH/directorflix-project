@@ -43,18 +43,12 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     console.log(`🚫 Rota ignorada: ${currentPath}`);
     return NextResponse.next();
   }
-  logNow("passei 1")
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/signup')) {
-    logNow("entrei token")
-    console.log(token)
-    console.log(currentPath)
     return NextResponse.redirect(new URL('/login', request.url));
   }
-  logNow("passei 2")
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)
   if (authResult && !request.nextUrl.pathname.startsWith('/signup')) return authResult
-  logNow("passei 3")
   if(token && token.user?.status == "ativo"){
     if (request.nextUrl.pathname.startsWith("/login") ||
         request.nextUrl.pathname === "/" ||
@@ -62,7 +56,6 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       return NextResponse.redirect(new URL("/letsgo", request.url));
     }
   }
-  logNow("passei 4")
   if (request.nextUrl.pathname.startsWith('/api')) {
     const origin = request.headers.get('origin')
     const allowedDomain = process.env.ALLOWED_DOMAIN || process.env.NEXTAUTH_URL
@@ -73,7 +66,6 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       return new NextResponse('404', { status: 403 })
     }
   }
-  logNow("passei 5")
   if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
     try {
       const response  = await fetch(`${request.nextUrl.origin}/api/auth-v`, { 
@@ -82,13 +74,11 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       });
       const data = await response.json()
       if (!data.userId) {
-        logNow("passei 5.1")
         if (data.body?.message?.startsWith('101 - 2')) {
           return NextResponse.redirect(new URL('/checkout', request.url))
         } else if (data.body?.message?.startsWith('101 - 1')) {
           return NextResponse.redirect(new URL('/checkout', request.url))
         }
-        logNow("passei 5.2")
         return NextResponse.redirect(new URL('/login', request.url))
       }
     } catch(error){
@@ -96,7 +86,6 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
-  logNow("passei 6")
   const chiefRoutes = process.env.CHIEF_ROUTES?.split(',') || ['/admin'];
   const isChiefRoute = chiefRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)

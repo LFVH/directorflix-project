@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Checkout from '../Checkout'
 
 export default function HeroCTA() {
   const [email, setEmail] = useState('')
@@ -39,24 +40,9 @@ export default function HeroCTA() {
     <div className="max-w-6xl mx-auto flex justify-between items-center">
       {/* Logo pequeno */}
       <div className="text-2xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-        DIRECTOR FLIX
+        DIRECTOR'S FLIX
       </div>
       
-      {/* Botões de autenticação */}
-      <div className="flex gap-4">
-        <Link 
-          href="/login" 
-          className="px-5 py-2 text-white bg-transparent border border-white/30 hover:bg-white/10 rounded-lg transition-colors font-medium backdrop-blur-sm"
-        >
-          Entrar
-        </Link>
-        <Link 
-          href="/signup" 
-          className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
-        >
-          Cadastrar
-        </Link>
-      </div>
     </div>
   </header>
   
@@ -64,7 +50,7 @@ export default function HeroCTA() {
     {/* Logo principal */}
     <div className="mb-8">
       <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent mb-4">
-        DIRECTOR FLIX
+        DIRECTOR'S FLIX
       </h1>
       <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
     </div>
@@ -73,14 +59,14 @@ export default function HeroCTA() {
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
           Sua <span className="text-red-500">Biblioteca Criativa</span> Ilimitada
         </h2>
-
+        
         {/* Subheadline */}
         <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
           Milhares de referências organizadas e categorizadas para 
           <span className="text-yellow-400 font-semibold"> acelerar sua criatividade</span> e 
           <span className="text-green-400 font-semibold"> inspirar suas edições</span>
         </p>
-
+        <Checkout />
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
           <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-gray-800 hover:border-red-500 transition-all duration-300">

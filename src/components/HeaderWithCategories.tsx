@@ -65,7 +65,7 @@ export default function HeaderWithCategories() {
       <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent p-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-8">
-            <h1 className="text-red-600 text-2xl font-bold">Director Flix</h1>
+            <h1 className="text-red-600 text-2xl font-bold">Director's Flix</h1>
             <nav className="hidden md:flex gap-6">
               <span className="text-gray-400">Carregando...</span>
             </nav>
@@ -79,7 +79,7 @@ export default function HeaderWithCategories() {
     <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent p-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-8">
-          <h1 className="text-red-600 text-2xl font-bold">Director Flix</h1>
+          <h1 className="text-red-600 text-2xl font-bold">Director's Flix</h1>
           
           <nav className="hidden md:flex gap-6 items-center">
             {/* Item Início */}

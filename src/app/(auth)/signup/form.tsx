@@ -2,7 +2,6 @@
 
 import { Label } from '@/components/signinsignup/label';
 import { Input } from '@/components/signinsignup/input';
-import { Button } from '@/components/signinsignup/button';
 import { signup } from '@/app/api/auth/auth/signup';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useState } from 'react';
@@ -88,8 +87,14 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
 
 export function SignupButton({ isLoading }: { isLoading: boolean }) {
   return (
-    <Button disabled={isLoading} type="submit" className="mt-2 w-full">
-      {isLoading ? "Submitting..." : "Sign Up"}
-    </Button>
+    <div className="mt-2">
+      <button 
+        disabled={isLoading} 
+        type="submit" 
+        className="w-full bg-red-600 text-white py-3 px-4 rounded-md font-medium text-sm hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isLoading ? 'Creating account...' : 'Sign up'}
+      </button>
+    </div>
   );
 }

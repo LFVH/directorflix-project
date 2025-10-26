@@ -12,24 +12,22 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-    <div className="flex flex-col p-4 lg:w-1/3">
+    <div className="flex flex-col p-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold">Login</h1>
-        <p className="text-gray-500">
+        <h1 className="text-3xl font-bold text-white">Login</h1>
+        <p className="text-gray-300 mt-2">
           Enter your email below to login to your account
         </p>
       </div>
       <div className="mt-6">
         <LoginForm onLoginSuccess={handleLoginSuccess} />
       </div>
-      <div className="mt-4 text-center text-sm">
+      <div className="mt-4 text-center text-sm text-gray-300">
         Don&apos;t have an account?{' '}
-        <Link className="underline" href="/signup">
+        <Link className="text-red-500 hover:text-red-400 underline" href="/signup">
           Sign up
         </Link>
       </div>
-    </div>
     </div>
   );
 }

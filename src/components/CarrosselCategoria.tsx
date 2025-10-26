@@ -21,7 +21,6 @@ export default function CarrosselCategoria({
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollRequestRef = useRef<number>(0)
 
-  // 🔥 CLEANUP EFFECT - SEMPRE chamado, independente do layout
   useEffect(() => {
     return () => {
       if (scrollRequestRef.current) {
@@ -29,6 +28,23 @@ export default function CarrosselCategoria({
       }
     }
   }, [])
+    useEffect(() => {
+    if (layout === 'carrossel') {
+      updateArrows()
+      
+      const handleResize = () => {
+        setTimeout(updateArrows, 100)
+      }
+
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+    }
+  }, [categoria.conteudos.length, layout])
+  useEffect(() => {
+    if (layout === 'carrossel') {
+      setTimeout(updateArrows, 100)
+    }
+  }, [categoria.conteudos, layout]) // 🔥 Adicionar layout como dependência
 
   // 🔥 AGORA fazemos a renderização condicional DEPOIS de todos os hooks
   if (layout === 'lista') {
@@ -133,24 +149,6 @@ export default function CarrosselCategoria({
       updateArrows()
     }
   }
-
-  useEffect(() => {
-    if (layout === 'carrossel') {
-      updateArrows()
-      
-      const handleResize = () => {
-        setTimeout(updateArrows, 100)
-      }
-
-      window.addEventListener('resize', handleResize)
-      return () => window.removeEventListener('resize', handleResize)
-    }
-  }, [categoria.conteudos.length, layout])
-  useEffect(() => {
-    if (layout === 'carrossel') {
-      setTimeout(updateArrows, 100)
-    }
-  }, [categoria.conteudos, layout]) // 🔥 Adicionar layout como dependência
 
   return (
     <div className="relative group">

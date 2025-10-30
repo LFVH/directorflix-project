@@ -44,14 +44,23 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     return NextResponse.next();
   }
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/signup')) {
+  if(!token && (
+    request.nextUrl.pathname.startsWith('/login')  || 
+    request.nextUrl.pathname.startsWith('/signup') || 
+    request.nextUrl.pathname.startsWith('/auth')   ||
+    request.nextUrl.pathname === '/') ){
+    return NextResponse.next();
+  }
+  if (!token) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)
-  if (authResult && !request.nextUrl.pathname.startsWith('/signup')) return authResult
+  if (authResult) return authResult
   if(token && token.user?.status == "ativo"){
     if (request.nextUrl.pathname.startsWith("/login") ||
-        request.nextUrl.pathname === "/") {
+        request.nextUrl.pathname === "/" || 
+        request.nextUrl.pathname.startsWith("/signup") ||
+      request.nextUrl.pathname.startsWith("/auth")) {
       return NextResponse.redirect(new URL("/letsgo", request.url));
     }
   }

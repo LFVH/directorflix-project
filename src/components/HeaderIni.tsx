@@ -9,14 +9,12 @@ export default function Header() {
   return (
     <header className="absolute top-0 left-0 right-0 z-20 p-6">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
-        {/* Logo pequeno */}
         <div className="text-2xl font-bold text-red-700">
           DIRECTOR'S FLIX
         </div>
         
         <div className="flex gap-4">
           {!session ? (
-            // Usuário deslogado - mostra Login e Cadastrar
             <>
               <Link 
                 href="/login" 
@@ -32,9 +30,8 @@ export default function Header() {
               </Link>
             </>
           ) : (
-            // Usuário logado - mostra botão Sair
             <button 
-              onClick={() => signOut({ callbackUrl: "/letsgo" })}
+              onClick={() => signOut({ callbackUrl: "/auth" })}
               className="flex items-center gap-2 px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

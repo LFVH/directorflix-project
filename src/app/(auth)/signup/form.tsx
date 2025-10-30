@@ -18,7 +18,7 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
   const searchParams = useSearchParams();
   
   // Pega o ID da assinatura da URL
-  const assinaturaId = searchParams.get('assinatura');
+  const assinaturaId = searchParams.get('plan');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,15 +64,12 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
       setErrors({ general: result.message });
       return;
     }
-
-    // Se o signup for bem-sucedido, faz login automático
     await signIn("credentials", {
       email: result?.data?.email,
       password: formData.get("password"),
       redirect: false,
     });
     if (assinaturaId) {
-      // Redireciona para o pagamento com a assinatura
       router.push(`/?plan=${assinaturaId}`);
     } else {
       onLoginSuccess?.();

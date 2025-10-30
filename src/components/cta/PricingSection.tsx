@@ -22,14 +22,14 @@ export default function PricingSection({
   const [isProcessing, setIsProcessing] = useState(false);
   const [assinatura, setAssinatura] = useState<number | null>(null);
   const searchParams = useSearchParams();
-  const assinaturaFromUrl = searchParams.get('assinatura');
+  const assinaturaFromUrl = searchParams.get('plan');
 
   useEffect(() => {
     if (session && assinatura) {
       handlePayment(assinatura);
     } 
     if (!session && assinatura) {
-      router.push(`/login?plan=${assinatura}`);
+      router.push(`/auth?plan=${assinatura}`);
     } 
   }, [status, assinatura]);
 
@@ -119,7 +119,7 @@ export default function PricingSection({
     return (
       <div className={`flex items-center justify-center bg-gray-50 ${className}`}>
         <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-center">Processando...</h2>
+          <h2 className="text-2xl font-bold text-center">Redirecionando para pagamento...</h2>
           <p className="text-center">Por favor, aguarde enquanto processamos sua requisição.</p>
         </div>
       </div>

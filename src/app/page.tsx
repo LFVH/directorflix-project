@@ -1,4 +1,3 @@
-// app/page.tsx
 import HeroCTA from '@/components/cta/HeroCTA'
 
 export default function Home() {

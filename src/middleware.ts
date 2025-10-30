@@ -51,8 +51,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   if (authResult && !request.nextUrl.pathname.startsWith('/signup')) return authResult
   if(token && token.user?.status == "ativo"){
     if (request.nextUrl.pathname.startsWith("/login") ||
-        request.nextUrl.pathname === "/" ||
-        request.nextUrl.pathname.startsWith("/checkout")) {
+        request.nextUrl.pathname === "/") {
       return NextResponse.redirect(new URL("/letsgo", request.url));
     }
   }
@@ -75,9 +74,9 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       const data = await response.json()
       if (!data.userId) {
         if (data.body?.message?.startsWith('101 - 2')) {
-          return NextResponse.redirect(new URL('/checkout', request.url))
+          return NextResponse.redirect(new URL('/', request.url))
         } else if (data.body?.message?.startsWith('101 - 1')) {
-          return NextResponse.redirect(new URL('/checkout', request.url))
+          return NextResponse.redirect(new URL('/', request.url))
         }
         return NextResponse.redirect(new URL('/login', request.url))
       }

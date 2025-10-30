@@ -95,10 +95,12 @@ export async function POST(req: Request) {
             switch(priceId) {
               case process.env.STRIPE_SUBSCRIPTION_PRICEMONTH_ID:
                 return 'monthly';
+              case process.env.STRIPE_SUBSCRIPTION_PRICETRIME_ID:
+                return 'trimestral';
               case process.env.STRIPE_SUBSCRIPTION_PRICESEMES_ID:
                 return 'semiannual';
               case process.env.STRIPE_SUBSCRIPTION_PRICEANUAL_ID:
-                return 'yearly';
+                return 'annual';
               default:
                 throw new Error("Price not found");
             }

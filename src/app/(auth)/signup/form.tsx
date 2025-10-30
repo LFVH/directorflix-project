@@ -6,12 +6,19 @@ import { signup } from '@/app/api/auth/auth/signup';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useState } from 'react';
 import { signIn } from "next-auth/react"
+import { SignupFormSchema } from '@/app/api/auth/auth/definitions';
+import { useRouter, useSearchParams } from 'next/navigation';
 interface SignupFormProps {
   onLoginSuccess: () => void;
 }
 export function SignupForm({ onLoginSuccess }: SignupFormProps) {
   const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; general?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Pega o ID da assinatura da URL
+  const assinaturaId = searchParams.get('assinatura');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,8 +26,27 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
     setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
+    const validatedFields = SignupFormSchema.safeParse({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+    });
 
-    // Chama a Server Action manualmente
+    if (!validatedFields.success) {
+      const fieldErrors = validatedFields.error.flatten().fieldErrors;
+      setErrors({
+        name: fieldErrors.name?.[0],
+        email: fieldErrors.email?.[0],
+        password: fieldErrors.password?.[0],
+      });
+      setIsLoading(false);
+      return;
+    }
+
+     const email = formData.get('email') as string;
+      if (email) {
+        formData.set('email', email.toLowerCase());
+      }
     const result = await signup(undefined, formData);
 
     setIsLoading(false);
@@ -45,8 +71,12 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
       password: formData.get("password"),
       redirect: false,
     });
-
-    onLoginSuccess();
+    if (assinaturaId) {
+      // Redireciona para o pagamento com a assinatura
+      router.push(`/?plan=${assinaturaId}`);
+    } else {
+      onLoginSuccess?.();
+    }
   };
 
   return (
@@ -54,7 +84,7 @@ export function SignupForm({ onLoginSuccess }: SignupFormProps) {
       <div className="flex flex-col gap-2">
         <div>
           <Label htmlFor="name">Name</Label>
-          <Input id="name" name="name" placeholder="John Doe" />
+          <Input id="name" name="name" placeholder="John Macgo" />
         </div>
         {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
         

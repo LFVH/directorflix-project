@@ -1,4 +1,3 @@
-// components/ConteudosFiltradosComScroll.tsx - ATUALIZADO
 'use client'
 
 import { useEffect, useRef } from 'react'

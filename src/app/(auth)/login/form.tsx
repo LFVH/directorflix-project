@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { LoginFormSchema } from '@/app/api/auth/auth/definitions';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface LoginFormProps {
   onLoginSuccess: () => void;
@@ -14,6 +15,11 @@ interface LoginFormProps {
 export const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Pega o ID da assinatura da URL
+  const assinaturaId = searchParams.get('plan');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +55,12 @@ export const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     if (result?.error) {
       setErrors((prev) => ({ ...prev, general: result.error ?? 'Login failed' }));
     } else {
-      onLoginSuccess();
+      if (assinaturaId) {
+        // Redireciona para o pagamento com a assinatura
+        router.push(`/?plan=${assinaturaId}`);
+      } else{
+        onLoginSuccess();
+      }
     }
   };
 

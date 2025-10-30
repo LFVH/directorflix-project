@@ -1,4 +1,3 @@
-// components/HeroBanner.tsx - ATUALIZADO
 'use client'
 
 import { CategoriaWithUrls } from '@/types'

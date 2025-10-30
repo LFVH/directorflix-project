@@ -2,9 +2,9 @@
 
 import { useGlobalFilter } from '@/hooks/useGlobalFilter'
 import HeroBanner from '@/components/HeroBanner'
-import ConteudosFiltradosComScroll from '@/components/ConteudosFiltradosComScroll'
+import ConteudosFiltradosComScroll from '@/components/letsgo/ConteudosFiltradosComScroll'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import HeaderWithCategories from '@/components/HeaderWithCategories'
+import HeaderWithCategories from '@/components/letsgo/HeaderWithCategories'
 import { useCategorias } from '@/hooks/useCategorias'
 
 export default function DirectorPage() {

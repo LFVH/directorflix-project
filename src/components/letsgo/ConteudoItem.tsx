@@ -1,4 +1,3 @@
-// components/ConteudoItem.tsx
 'use client'
 
 import { ConteudoWithUrl } from '@/types'

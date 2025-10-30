@@ -1,4 +1,3 @@
-// components/HeaderWithCategories.tsx - COM LOGS
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
@@ -20,6 +19,7 @@ export default function HeaderWithCategories() {
   
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -31,18 +31,16 @@ export default function HeaderWithCategories() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const categoriasPrincipais = categorias?.slice(0, 5) || []
-  const categoriasRestantes = categorias?.slice(5) || []
+  const categoriasPrincipais = categorias?.slice(0, 4) || [] // Reduzido para 4 categorias principais
+  const categoriasRestantes = categorias?.slice(4) || []
 
   const handleCategoriaClick = (categoriaId: string) => {
-    
     if (filtroAtivo === categoriaId && tipoFiltro === 'categoria') {
       limparFiltros()
     } else {
       setFiltroCategoria(categoriaId)
     }
     setIsDropdownOpen(false)
-    console.groupEnd()
   }
 
   const handleInicioClick = () => {
@@ -54,6 +52,7 @@ export default function HeaderWithCategories() {
   }
 
   const handleClearSearch = () => {
+    // Implementação do clear search
   }
 
   const handleClearAllFilters = () => {
@@ -63,10 +62,10 @@ export default function HeaderWithCategories() {
   if (isLoading) {
     return (
       <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent p-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-8">
-            <h1 className="text-red-600 text-2xl font-bold">Director's Flix</h1>
-            <nav className="hidden md:flex gap-6">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex items-center gap-4 min-w-0 flex-1">
+            <h1 className="text-red-600 text-xl sm:text-2xl font-bold truncate">Director's Flix</h1>
+            <nav className="hidden md:flex gap-4">
               <span className="text-gray-400">Carregando...</span>
             </nav>
           </div>
@@ -77,11 +76,13 @@ export default function HeaderWithCategories() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent p-4">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-8">
-          <h1 className="text-red-600 text-2xl font-bold">Director's Flix</h1>
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        
+        {/* Logo e Navegação */}
+        <div className="flex items-center gap-4 min-w-0 flex-1">
+          <h1 className="text-red-600 text-xl sm:text-2xl font-bold truncate">Director's Flix</h1>
           
-          <nav className="hidden md:flex gap-6 items-center">
+          <nav className="hidden md:flex items-center gap-4 flex-wrap min-w-0">
             {/* Item Início */}
             <button
               onClick={handleInicioClick}
@@ -89,7 +90,7 @@ export default function HeaderWithCategories() {
                 !filtroAtivo 
                   ? 'text-white font-semibold' 
                   : 'text-gray-300 hover:text-white'
-              } transition-colors whitespace-nowrap`}
+              } transition-colors whitespace-nowrap text-sm px-2 py-1`}
             >
               Início
             </button>
@@ -101,9 +102,9 @@ export default function HeaderWithCategories() {
                 onClick={() => handleCategoriaClick(categoria.id)}
                 className={`${
                   filtroAtivo === categoria.id && tipoFiltro === 'categoria'
-                    ? 'text-white font-semibold underline decoration-red-600'
-                    : 'text-gray-300 hover:text-white'
-                } transition-colors whitespace-nowrap`}
+                    ? 'text-white font-bold bg-red-600 px-3 py-1 rounded-full' 
+                    : 'text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-1 rounded-full'
+                } transition-colors whitespace-nowrap text-sm`}
               >
                 {categoria.nome}
               </button>
@@ -156,39 +157,80 @@ export default function HeaderWithCategories() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* 🔥 ATUALIZADO: SearchBar controlado */}
-          <SearchBar 
-            onSearch={handleSearch}
-            value={tipoFiltro === 'search' ? termoPesquisa : ''} // 🔥 Sincronizado com estado global
-            onClear={handleClearSearch}
-          />
+        {/* Search e Botão Sair */}
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <div className="flex-1 sm:flex-none min-w-0">
+            <SearchBar 
+              onSearch={handleSearch}
+              value={tipoFiltro === 'search' ? termoPesquisa : ''}
+              onClear={handleClearSearch}
+            />
+          </div>
           
           <button 
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="flex items-center gap-2 px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium"
+            onClick={() => signOut({ callbackUrl: "/letsgo" })}
+            className="flex items-center gap-2 px-3 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium text-sm whitespace-nowrap flex-shrink-0"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            Sair
+            <span className="hidden sm:inline">Sair</span>
           </button>
         </div>
       </div>
 
+      {/* Menu Mobile - Categorias */}
+      <div className="md:hidden mt-3 overflow-x-auto">
+        <nav className="flex gap-3 pb-2 min-w-max">
+          <button
+            onClick={handleInicioClick}
+            className={`${
+              !filtroAtivo 
+                ? 'text-white font-semibold bg-red-600' 
+                : 'text-gray-300 bg-gray-800 hover:bg-gray-700'
+            } transition-colors whitespace-nowrap text-sm px-3 py-1 rounded-full`}
+          >
+            Início
+          </button>
+
+          {categorias?.slice(0, 6).map((categoria) => (
+            <button
+              key={categoria.id}
+              onClick={() => handleCategoriaClick(categoria.id)}
+              className={`${
+                filtroAtivo === categoria.id && tipoFiltro === 'categoria'
+                  ? 'text-white font-semibold bg-red-600'
+                  : 'text-gray-300 bg-gray-800 hover:bg-gray-700'
+              } transition-colors whitespace-nowrap text-sm px-3 py-1 rounded-full`}
+            >
+              {categoria.nome}
+            </button>
+          ))}
+
+          {categorias && categorias.length > 6 && (
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="text-gray-300 bg-gray-800 hover:bg-gray-700 transition-colors text-sm px-3 py-1 rounded-full"
+            >
+              +
+            </button>
+          )}
+        </nav>
+      </div>
+
       {/* Indicador de Filtro Ativo */}
       {filtroAtivo && (
-        <div className="mt-2 flex items-center gap-2 text-sm text-white">
-          <span>Filtrando por:</span>
-          <span className="bg-red-600 px-3 py-1 rounded-full text-xs font-medium">
+        <div className="mt-3 flex items-center gap-2 text-sm text-white">
+          <span className="whitespace-nowrap">Filtrando por:</span>
+          <span className="bg-red-600 px-3 py-1 rounded-full text-xs font-medium truncate max-w-[200px]">
             {tipoFiltro === 'categoria' 
               ? categorias?.find(c => c.id === filtroAtivo)?.nome
               : `"${filtroAtivo}"`
             }
           </span>
           <button
-            onClick={handleClearAllFilters} // 🔥 AGORA funciona!
-            className="text-gray-400 hover:text-white transition-colors p-1"
+            onClick={handleClearAllFilters}
+            className="text-gray-400 hover:text-white transition-colors p-1 flex-shrink-0"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

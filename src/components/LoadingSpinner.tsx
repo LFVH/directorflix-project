@@ -1,4 +1,3 @@
-// components/LoadingSpinner.tsx
 export default function LoadingSpinner() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">

@@ -11,11 +11,12 @@ export async function POST(req: NextRequest) {
   const { assinatura } = await req.json();
   const precos = {
     1: process.env.STRIPE_SUBSCRIPTION_PRICEMONTH_ID,
-    2: process.env.STRIPE_SUBSCRIPTION_PRICESEMES_ID,
-    3: process.env.STRIPE_SUBSCRIPTION_PRICEANUAL_ID
+    2: process.env.STRIPE_SUBSCRIPTION_PRICETRIME_ID,
+    3: process.env.STRIPE_SUBSCRIPTION_PRICESEMES_ID,
+    4: process.env.STRIPE_SUBSCRIPTION_PRICEANUAL_ID
   } as const;
 
-  if (!([1, 2, 3] as const).includes(assinatura as any)) {    
+  if (!([1, 2, 3, 4] as const).includes(assinatura as any)) {    
     return new NextResponse(JSON.stringify({ error: "Assinatura inválida" }), { status: 400 });
   }
 
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
         }
       },
       payment_method_types:  ["card"],
-      success_url: `${req.headers.get("origin")}/letsgo?parabens=boratreinar`,
+      success_url: `${req.headers.get("origin")}/letsgo?congratulations`,
       cancel_url: `${req.headers.get("origin")}/`,
       metadata: {
         userId,

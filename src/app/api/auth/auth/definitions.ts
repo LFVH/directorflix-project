@@ -5,7 +5,7 @@ export const SignupFormSchema = z.object({
     .string()
     .min(2, { message: 'Name must be at least 2 characters long.' })
     .trim(),
-  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+  email: z.string().email({ message: 'Please enter a valid email.' }).trim().transform(email => email.toLowerCase()),
   password: z
     .string()
     .min(8, { message: 'Be at least 8 characters long' })
@@ -13,7 +13,7 @@ export const SignupFormSchema = z.object({
 });
 
 export const LoginFormSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email.' }),
+  email: z.string().email({ message: 'Please enter a valid email.' }).transform(email => email.toLowerCase()),
   password: z.string().min(1, { message: 'Password field must not be empty.' }),
 });
 

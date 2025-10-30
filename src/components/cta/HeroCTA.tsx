@@ -1,10 +1,10 @@
-// components/HeroCTA.tsx
 'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Checkout from '../Checkout'
+import PricingSection from './PricingSection'
+import HeaderIni from '../HeaderIni'
 
 export default function HeroCTA() {
   const [email, setEmail] = useState('')
@@ -30,26 +30,17 @@ export default function HeroCTA() {
   }
 
   return (
-<div className="relative bg-gradient-to-br from-purple-900 via-black to-red-900 min-h-screen flex items-center justify-center px-4">
+<div className="relative bg-gradient-to-br from-orange-500 via-black to-red-900 min-h-screen flex items-center justify-center px-4">
   {/* Background Pattern */}
   <div className="absolute inset-0 bg-black/50"></div>
   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/80 to-black"></div>
 
-  {/* Header com botões */}
-  <header className="absolute top-0 left-0 right-0 z-20 p-6">
-    <div className="max-w-6xl mx-auto flex justify-between items-center">
-      {/* Logo pequeno */}
-      <div className="text-2xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-        DIRECTOR'S FLIX
-      </div>
-      
-    </div>
-  </header>
+  <HeaderIni />
   
-  <div className="relative z-10 max-w-6xl mx-auto text-center">
+  <div className="relative z-10 max-w-6xl mx-auto text-center pt-32">
     {/* Logo principal */}
     <div className="mb-8">
-      <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent mb-4">
+      <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent mb-4">
         DIRECTOR'S FLIX
       </h1>
       <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
@@ -63,10 +54,10 @@ export default function HeroCTA() {
         {/* Subheadline */}
         <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
           Milhares de referências organizadas e categorizadas para 
-          <span className="text-yellow-400 font-semibold"> acelerar sua criatividade</span> e 
-          <span className="text-green-400 font-semibold"> inspirar suas edições</span>
+          <span className="text-green-500 font-semibold"> acelerar sua criatividade</span> e 
+          <span className="text-blue-600 font-semibold"> inspirar suas edições</span>
         </p>
-        <Checkout />
+        <PricingSection />
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
           <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-gray-800 hover:border-red-500 transition-all duration-300">

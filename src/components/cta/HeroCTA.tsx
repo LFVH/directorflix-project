@@ -107,7 +107,7 @@ export default function HeroCTA() {
               type="submit"
               className="px-8 py-4 bg-gradient-to-r from-red-600 to-purple-600 text-white font-bold rounded-lg hover:from-red-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-red-500/25"
             >
-              VER PLANOS
+              Comecar de gratis (TODO)
             </button>
           </form>
 

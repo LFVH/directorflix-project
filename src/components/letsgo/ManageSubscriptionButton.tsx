@@ -91,14 +91,14 @@ export default function ManageSubscriptionButtonWithCheck({
     );
   }
 
-  if (!subscriptionStatus.hasSubscription) {
-    return (
-      <div className={`inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white ${className}`}>
-        <CreditCardIcon className="w-4 h-4 mr-2" />
-        No active subscription
-      </div>
-    );
-  }
+  // if (!subscriptionStatus.hasSubscription) {
+  //   return (
+  //     <div className={`inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white ${className}`}>
+  //       <CreditCardIcon className="w-4 h-4 mr-2" />
+  //       No active subscription
+  //     </div>
+  //   );
+  // }
 
   return (
     <button

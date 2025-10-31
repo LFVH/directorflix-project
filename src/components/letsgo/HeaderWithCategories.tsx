@@ -5,7 +5,7 @@ import { useCategorias } from '@/hooks/useCategorias'
 import { useGlobalFilter } from '@/hooks/useGlobalFilter'
 import { signOut } from 'next-auth/react'
 import SearchBar from './SearchBar'
-
+import ManageSubscriptionButton from './ManageSubscriptionButton'
 export default function HeaderWithCategories() {
   const { data: categorias, isLoading } = useCategorias()
   const { 
@@ -161,7 +161,7 @@ export default function HeaderWithCategories() {
               onClear={handleClearSearch}
             />
           </div>
-          
+          <ManageSubscriptionButton />
           <button 
             onClick={() => signOut({ callbackUrl: "/auth" })}
             className="flex items-center gap-2 px-3 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium text-sm whitespace-nowrap flex-shrink-0"

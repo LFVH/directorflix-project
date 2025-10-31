@@ -54,7 +54,7 @@ export default function ManageSubscriptionButtonWithCheck({
     setIsLoading(true);
 
     try {
-      const response = await fetch('\api\letsgo\create-portal-session', {
+      const response = await fetch('/api/letsgo/create-portal-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

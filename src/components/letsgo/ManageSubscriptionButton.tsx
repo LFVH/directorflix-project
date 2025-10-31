@@ -25,30 +25,30 @@ export default function ManageSubscriptionButtonWithCheck({
   const { data: session, status } = useSession();
 
   // Verificar se o usuário tem uma assinatura ativa
-  // useEffect(() => {
-  //   const checkSubscription = async () => {
-  //     if (status !== 'authenticated') {
-  //       setCheckingSubscription(false);
-  //       return;
-  //     }
+  useEffect(() => {
+    const checkSubscription = async () => {
+      if (status !== 'authenticated') {
+        setCheckingSubscription(false);
+        return;
+      }
 
-  //     try {
-  //       const response = await fetch('/api/stripe/subscription-status');
-  //       const data = await response.json();
+      try {
+        const response = await fetch('/api/stripe/subscription-status');
+        const data = await response.json();
         
-  //       setSubscriptionStatus({
-  //         hasSubscription: data.hasSubscription,
-  //         status: data.status
-  //       });
-  //     } catch (error) {
-  //       console.error('Error checking subscription:', error);
-  //     } finally {
-  //       setCheckingSubscription(false);
-  //     }
-  //   };
+        setSubscriptionStatus({
+          hasSubscription: data.hasSubscription,
+          status: data.status
+        });
+      } catch (error) {
+        console.error('Error checking subscription:', error);
+      } finally {
+        setCheckingSubscription(false);
+      }
+    };
 
-  //   checkSubscription();
-  // }, [status]);
+    checkSubscription();
+  }, [status]);
 
   const handleManageSubscription = async () => {
     setIsLoading(true);

@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { MenuIcon } from '@/components/signinsignup/icons';
 
 const links = [
-  { href: '/categorias', title: 'Categorias' },
-  { href: '/conteudos', title: 'Conteudos' },
+  { href: '/nextsteps/categorias', title: 'Categorias' },
+  { href: '/nextsteps/conteudos', title: 'Conteudos' },
 ];
 
 export default function Layout({
@@ -46,8 +46,8 @@ export default function Layout({
         </div>
       </div>
 
-      <main className="container mx-auto flex max-w-7xl justify-center px-4 py-8 md:py-16">
-        <div className="w-full max-w-lg rounded-lg bg-gray-900/70 p-6 backdrop-blur-sm md:p-8 lg:max-w-xl">
+      <main className="">
+        <div className="">
           {children}
         </div>
       </main>

@@ -66,7 +66,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   }
   if (request.nextUrl.pathname.startsWith('/api')) {
     const origin = request.headers.get('origin')
-    const allowedDomain = process.env.ALLOWED_DOMAIN || process.env.NEXTAUTH_URL
+    const allowedDomain = process.env.NEXTAUTH_URL
 
     if (origin && origin !== allowedDomain) {
       logNow("origin:");

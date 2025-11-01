@@ -14,12 +14,8 @@ export default function DirectorPage() {
   if (bannerLoading) {
     return <LoadingSpinner />
   }
-
   return (
-    <div className="min-h-screen bg-black">
-      <HeaderWithCategories />
-      
-      <main className="pt-20">
+      <main className="">
         <HeroBanner 
           categorias={categorias || []}
           categoriaFiltrada={tipoFiltro === 'categoria' ? filtroAtivo : null}
@@ -32,14 +28,5 @@ export default function DirectorPage() {
           termoPesquisa={termoPesquisa}
         />
       </main>
-      
-      <footer className="bg-black border-t border-gray-800 py-8 px-8">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-gray-400 text-center">
-            © {new Date().getFullYear()} Director's Flix. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
-    </div>
   )
 }

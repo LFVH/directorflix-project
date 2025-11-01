@@ -5,7 +5,7 @@ import { useCategorias } from '@/hooks/useCategorias'
 import { useGlobalFilter } from '@/hooks/useGlobalFilter'
 import { signOut } from 'next-auth/react'
 import SearchBar from './SearchBar'
-import ManageSubscriptionButton from './ManageSubscriptionButton'
+import { UserButton } from './UserButton'
 export default function HeaderWithCategories() {
   const { data: categorias, isLoading } = useCategorias()
   const { 
@@ -31,7 +31,7 @@ export default function HeaderWithCategories() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const categoriasPrincipais = categorias?.slice(0, 4) || [] // Reduzido para 4 categorias principais
+  const categoriasPrincipais = categorias?.slice(0, 4) || []
   const categoriasRestantes = categorias?.slice(4) || []
 
   const handleCategoriaClick = (categoriaId: string) => {
@@ -106,7 +106,6 @@ export default function HeaderWithCategories() {
               </button>
             ))}
 
-            {/* Dropdown "..." */}
             {categoriasRestantes.length > 0 && (
               <div ref={dropdownRef} className="relative">
                 <button
@@ -161,7 +160,7 @@ export default function HeaderWithCategories() {
               onClear={handleClearSearch}
             />
           </div>
-          <ManageSubscriptionButton />
+          
           <button 
             onClick={() => signOut({ callbackUrl: "/auth" })}
             className="flex items-center gap-2 px-3 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium text-sm whitespace-nowrap flex-shrink-0"
@@ -171,6 +170,7 @@ export default function HeaderWithCategories() {
             </svg>
             <span className="hidden sm:inline">Sair</span>
           </button>
+          <UserButton />
         </div>
       </div>
 

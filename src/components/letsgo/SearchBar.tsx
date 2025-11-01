@@ -64,7 +64,7 @@ export default function SearchBar({
           value={localQuery}
           onChange={handleChange}
           placeholder="Buscar conteúdos..."
-          className="w-64 md:w-80 px-4 py-2 pl-10 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition-colors"
+          className="w-64 md:w-70 px-4 py-2 pl-10 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition-colors"
           autoFocus={autoFocus}
         />
         

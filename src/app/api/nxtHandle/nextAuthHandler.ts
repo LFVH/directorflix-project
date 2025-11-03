@@ -40,7 +40,7 @@ const AuthHandler :AuthOptions= {
           id: user.id, 
           name: user.name, 
           email: user.email, 
-          status: user.statusAss,
+          status: user.isPremium,
           role: isAdmin ? 'chief' : 'user'
         }; 
       }

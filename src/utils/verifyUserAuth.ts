@@ -11,7 +11,7 @@ export async function verifyUser() {
     if(userDB instanceof NextResponse) return userDB;
   
     const userId = checkPremiumExpiration(userDB);
-    return userId; // Retorna o ID do usuário para ser usado nas rotas
+    return userId;
   } catch (error) {
     logNow("verifyUser " + (error instanceof Error ? error.message : 'Ocorreu um erro!'));
     return NextResponse.json(
@@ -43,13 +43,14 @@ export async function userExists(): Promise<Usuario | NextResponse>  {
       where: { id: userId },
     });
   
-    if (!userExists || !userId) {
-      return NextResponse.json(
-        { success: false, body: { message: "Usuário não encontrado." } },
-        { status: 400 }
-      );
+    if (userExists && !userExists.isBlocked) {
+      return userExists;
     }
-    return userExists;
+    
+    return NextResponse.json(
+      { success: false, body: { message: "Usuário não encontrado." } },
+      { status: 400 }
+    );
 }
 
 function checkPremiumExpiration(user: Usuario ) {

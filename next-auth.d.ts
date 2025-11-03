@@ -5,14 +5,14 @@ declare module "next-auth" {
     id: string; 
     email: string | null;
     name: string | null;
-    status: string | null;
+    status: boolean | false;
     role: string; 
     user: {
       id: string; 
       email: string | null;
       name: string | null;
       image: string | null;
-      status: string | null;
+      status: boolean | false;
       role: string; 
     };
   }}
@@ -23,7 +23,7 @@ declare module "next-auth" {
       email: string;
       name: string | null;
       image: string | null;
-      status: string | null;
+      status: boolean | false;
       role: string; 
     };
   }

@@ -9,22 +9,37 @@ datasource db {
 
 model Usuario {
   id           String   @id @default(uuid())
+  idHistorico  Int      @unique @default(autoincrement())
   name         String
   email        String   @unique
   password     String
   refreshToken RefreshToken?
-  isBlocked    Boolean? @default(false)
+  isBlocked    Boolean  @default(false) //block manual
+  isPremium    Boolean  @default(false) 
   dtIniPremium DateTime?
   dtFimPremium DateTime?
   stripeCliId  String?  @unique
   stripeSubId  String?  @unique
-  statusAss    String   @default("inativo") // "aberta?","ativo", "cancelado", "pendente"
-  plano        String?  // "mensal", "anual", "semestral"
+  statusAss    Int      @default(1) // status stripe "inativo","ativo", "cancelado", "pendente"
+  plano        Int      @default(0)  // status stripe "mensal", "anual", "semestral"
   refreshPasswordToken        String?   //TODO esqueci senha 
   refreshPasswordTokenExpires DateTime? //TODO esqueci senha
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())
   @@index([stripeCliId])
+}
+
+model HistoricoUsuario {
+  id             Int  @id @default(autoincrement())
+  idHistUsuario  Int
+  valorPago      Decimal?
+  isBlocked      Boolean  @default(false) 
+  isPremium      Boolean  @default(false)
+  dtIniPremium   DateTime?
+  dtFimPremium   DateTime?
+  statusAss      Int      @default(1) 
+  plano          Int      @default(0) 
+  createdAt      DateTime @default(now())
 }
 
 model RefreshToken {

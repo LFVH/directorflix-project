@@ -79,7 +79,6 @@ export async function POST(req: Request) {
     case "invoice.paid":
       const invoice = event.data.object as Stripe.Invoice;
       
-      // Verifica se existe subscription (pode ser string ou null)
       const customerId = invoice.customer as string | null;
       if (customerId) {
         try {
@@ -90,17 +89,16 @@ export async function POST(req: Request) {
           const userId = invoice.lines.data[0].metadata.userId
           const currentPeriodEnd = new Date(invoice.lines.data[0].period.end * 1000);
 
-          // Abordagem 2: Via priceId (mais robusta - recomendado)
           const plano = (() => {
             switch(priceId) {
               case process.env.STRIPE_SUBSCRIPTION_PRICEMONTH_ID:
-                return 'monthly';
+                return 1;
               case process.env.STRIPE_SUBSCRIPTION_PRICETRIME_ID:
-                return 'trimestral';
+                return 2;
               case process.env.STRIPE_SUBSCRIPTION_PRICESEMES_ID:
-                return 'semiannual';
+                return 3;
               case process.env.STRIPE_SUBSCRIPTION_PRICEANUAL_ID:
-                return 'annual';
+                return 4;
               default:
                 throw new Error("Price not found");
             }

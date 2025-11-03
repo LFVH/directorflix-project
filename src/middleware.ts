@@ -56,7 +56,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   }
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)
   if (authResult) return authResult
-  if(token && token.user?.status == "ativo"){
+  if(token && token.user?.status){
     if (request.nextUrl.pathname.startsWith("/login") ||
         request.nextUrl.pathname === "/" || 
         request.nextUrl.pathname.startsWith("/signup") ||

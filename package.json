@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "prisma generate && prisma db push && next build",
+    "build": "prisma generate && prisma db push && next build --accept-data-loss",
     "start": "next start",
     "lint": "next lint",
     "dev": "npx prisma db push && npx prisma generate && next dev",

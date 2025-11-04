@@ -10,8 +10,10 @@ export async function verifyUser() {
     const userDB = await userExists();
     if(userDB instanceof NextResponse) return userDB;
   
-    const userId = checkPremiumExpiration(userDB);
-    return userId;
+    return {
+    userId: userDB?.id,
+    isPremium: userDB?.isPremium || false
+    };
   } catch (error) {
     logNow("verifyUser " + (error instanceof Error ? error.message : 'Ocorreu um erro!'));
     return NextResponse.json(

@@ -61,6 +61,7 @@ model Conteudo {
   filename       String
   mimetype       String
   data           Bytes
+  isFree         Boolean  @default(false)
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
   categorias     Categoria[]
@@ -72,6 +73,7 @@ model Categoria {
   nome           String?  @unique
   name           String?  @unique
   descricao      String?
+  isFree         Boolean  @default(false)
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
   conteudos      Conteudo[]

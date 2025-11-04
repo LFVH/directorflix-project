@@ -5,9 +5,9 @@ export async function GET(
   req: NextRequest
 ) {
   try {
-    const userId = await verifyUser();
-    if (userId instanceof NextResponse) {
-      return userId;} 
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     return NextResponse.json({ message: "Registro obtido", userId });
   } catch (error) {
     console.error(error);

@@ -47,7 +47,7 @@ export default function ConteudosPage() {
   const fetchConteudos = async (page: number, search: string = '') => {
     setLoading(true)
     try {
-      const url = `/api/letsgo/conteudos?page=${page}&limit=12${search ? `&search=${encodeURIComponent(search)}` : ''}`
+      const url = `/api/nextsteps/conteudos?page=${page}&limit=12${search ? `&search=${encodeURIComponent(search)}` : ''}`
       const response = await fetch(url)
       const result = await response.json()
       
@@ -151,7 +151,7 @@ export default function ConteudosPage() {
               {/* Preview */}
               <div className="h-48 bg-gray-900 flex items-center justify-center">
                 <img
-                  src={conteudo.link || `/api/letsgo/conteudos/${conteudo.id}`}
+                  src={conteudo.link || `/api/nextsteps/conteudos/${conteudo.id}`}
                   alt={conteudo.nome}
                   className="max-h-full max-w-full object-contain"
                 />

@@ -1,4 +1,3 @@
-// src/app/nextsteps/categorias/novo/page.tsx
 'use client'
 
 import { useState } from 'react'

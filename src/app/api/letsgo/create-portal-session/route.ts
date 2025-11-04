@@ -6,8 +6,9 @@ import prisma from '@/database/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const { return_url } = await request.json();
 

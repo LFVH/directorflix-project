@@ -56,23 +56,13 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   }
   const authResult = await authMiddleware(request as NextRequestWithAuth, event)
   if (authResult) return authResult
-  if(token && token.user?.status){
-    if (request.nextUrl.pathname.startsWith("/login") ||
-        request.nextUrl.pathname === "/" || 
-        request.nextUrl.pathname.startsWith("/signup") ||
-      request.nextUrl.pathname.startsWith("/auth")) {
-      return NextResponse.redirect(new URL("/letsgo", request.url));
-    }
-  }
-  if (request.nextUrl.pathname.startsWith('/api')) {
-    const origin = request.headers.get('origin')
-    const allowedDomain = process.env.NEXTAUTH_URL
+  const origin = request.headers.get('origin')
+  const allowedDomain = process.env.NEXTAUTH_URL
 
-    if (origin && origin !== allowedDomain) {
-      logNow("origin:");
-      console.log(origin)
-      return new NextResponse('404', { status: 403 })
-    }
+  if (origin && origin !== allowedDomain) {
+    logNow("origin:");
+    console.log(origin)
+    return new NextResponse('404', { status: 403 })
   }
   if (request.nextUrl.pathname.startsWith('/api/letsgo') || request.nextUrl.pathname.startsWith('/letsgo')) {
     try {
@@ -82,16 +72,17 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       });
       const data = await response.json()
       if (!data.userId) {
-        if (data.body?.message?.startsWith('101 - 2')) {
-          return NextResponse.redirect(new URL('/', request.url))
-        } else if (data.body?.message?.startsWith('101 - 1')) {
-          return NextResponse.redirect(new URL('/', request.url))
-        }
         return NextResponse.redirect(new URL('/login', request.url))
       }
+      return NextResponse.next()
     } catch(error){
       console.log(error);
       return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+  if(token && token.user?.status){
+    if (!request.nextUrl.pathname.startsWith("/letsgo")) {
+      return NextResponse.redirect(new URL("/letsgo", request.url));
     }
   }
   const chiefRoutes = process.env.CHIEF_ROUTES?.split(',') || ['/admin'];

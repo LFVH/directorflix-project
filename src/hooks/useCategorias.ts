@@ -5,7 +5,7 @@ export const useCategorias = () => {
   return useQuery({
     queryKey: ['categorias'],
     queryFn: async (): Promise<CategoriaWithUrls[]> => {
-      const response = await fetch('/api/letsgo/categorias?page=1&limit=999', {
+      const response = await fetch('/api/letsgo/categorias', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

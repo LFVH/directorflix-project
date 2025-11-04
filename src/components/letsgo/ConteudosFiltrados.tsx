@@ -6,7 +6,7 @@ import { useConteudosFiltrados } from '@/hooks/useConteudosFiltrados'
 import CarrosselCategoria from './CarrosselCategoria'
 import { useGlobalFilter } from '@/hooks/useGlobalFilter'
 
-interface ConteudosFiltradosComScrollProps {
+interface ConteudosFiltradosProps {
   categorias: CategoriaWithUrls[]
   filtroAtivo: string | null
   tipoFiltro: 'categoria' | 'search' | null
@@ -18,7 +18,7 @@ export default function ConteudosFiltradosComScroll({
   filtroAtivo, 
   tipoFiltro, 
   termoPesquisa 
-}: ConteudosFiltradosComScrollProps) {
+}: ConteudosFiltradosProps) {
   const { limparFiltros } = useGlobalFilter()
   const { 
     categoriasFiltradas, 
@@ -82,7 +82,6 @@ export default function ConteudosFiltradosComScroll({
 
   return (
     <section className="py-8 space-y-12">
-      {/* Header com informações do filtro */}
       {tipoFiltro === 'search' && categoriasFiltradas.length > 0 && (
         <div className="px-8">
           <h2 className="text-2xl font-bold text-white mb-2">
@@ -95,7 +94,6 @@ export default function ConteudosFiltradosComScroll({
         </div>
       )}
 
-      {/* 🔥 RENDERIZAÇÃO CONDICIONAL: Lista ou Carrossel */}
       {categoriasFiltradas.map((categoria, index) => (
         <CarrosselCategoria 
           key={`${categoria.id}-${index}-${tipoFiltro}-${filtroAtivo}`}

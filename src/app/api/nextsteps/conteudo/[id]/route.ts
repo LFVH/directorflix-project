@@ -7,8 +7,9 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
@@ -35,8 +36,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     const conteudo = await prisma.conteudo.findUnique({
       where: { id: parseInt((await params).id) },
       include: {
@@ -75,8 +77,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const formData = await request.formData()
     

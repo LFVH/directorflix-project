@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       await prisma.usuario.update({
         where: { stripeSubId: event.data.object.id },
         data: { 
-          statusAss: "cancelado",
+          statusAss: 10,
         },
       });
     break;
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
            plano,
            dtIniPremium: new Date(),
            dtFimPremium: currentPeriodEnd,
-           statusAss: "ativo",
+           statusAss: 6,
          },
        });
 

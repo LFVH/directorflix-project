@@ -1,23 +1,57 @@
-// app/api/letsgo/categorias/route.ts
+// src/app/api/letsgo/categorias/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma";
 import { verifyUser } from '@/utils/verifyUserAuth';
 
-// app/api/letsgo/categorias/route.ts - GET atualizado
 export async function GET(request: NextRequest) {
   try {
-    const userId = await verifyUser();
-    if (userId instanceof NextResponse) return userId;
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const { userId, isPremium } = authResult;
 
-    const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '5') // 5 categorias por vez
-    const skip = (page - 1) * limit
+    if (isPremium) {
+      // Usuário premium - traz tudo
+      const [categorias, total] = await Promise.all([
+        prisma.categoria.findMany({
+          include: {
+            conteudos: {
+              select: {
+                id: true,
+                nome: true,
+                name: true,
+                filename: true,
+                mimetype: true,
+                link: true,
+                linkext: true,
+                fonte: true,
+                createdAt: true,
+                isFree: true, // Adicione isso
+              },
+              orderBy: { createdAt: 'desc' },
+            }
+          },
+          orderBy: { createdAt: 'desc' },
+        }),
+        prisma.categoria.count()
+      ])
 
-    const [categorias, total] = await Promise.all([
-      prisma.categoria.findMany({
+      return NextResponse.json({
+        success: true,
+        data: categorias,
+        userType: 'premium'
+      })
+    } else {
+      // Usuário não premium - filtra categorias e conteúdos
+      const categorias = await prisma.categoria.findMany({
+        where: {
+          isFree: true // Apenas categorias free
+        },
         include: {
           conteudos: {
+            where: {
+              isFree: true // Apenas conteúdos free
+            },
             select: {
               id: true,
               nome: true,
@@ -28,33 +62,43 @@ export async function GET(request: NextRequest) {
               linkext: true,
               fonte: true,
               createdAt: true,
+              isFree: true,
             },
             orderBy: { createdAt: 'desc' },
-            take: 8 // Limita conteúdos por categoria
+          },
+          _count: {
+            select: {
+              conteudos: {
+                where: {
+                  isFree: false // Conta conteúdos não free
+                }
+              }
+            }
           }
         },
-        orderBy: { createdAt: 'asc' },
-        skip,
-        take: limit
-      }),
-      prisma.categoria.count()
-    ])
+        orderBy: { createdAt: 'desc' },
+      })
 
-    const totalPages = Math.ceil(total / limit)
-    const hasNextPage = page < totalPages
+      // Transforma os dados para incluir a contagem de conteúdos bloqueados
+      const categoriasComBloqueados = categorias.map(categoria => {
+        const conteudosBloqueados = categoria._count?.conteudos || 0;
+        
+        // Remove _count do objeto final
+        const { _count, ...categoriaSemCount } = categoria;
+        
+        // Só adiciona conteudosBloqueados se houver conteúdos bloqueados
+        return conteudosBloqueados > 0 
+          ? { ...categoriaSemCount, conteudosBloqueados }
+          : categoriaSemCount;
+      })
 
-    return NextResponse.json({
-      success: true,
-      data: categorias,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalItems: total,
-        hasNextPage,
-        hasPrevPage: page > 1
-      }
-    })
-  }catch (error) {
+      return NextResponse.json({
+        success: true,
+        data: categoriasComBloqueados,
+        userType: 'free'
+      })
+    }
+  } catch (error) {
     console.error('Erro ao buscar categorias:', error)
     return NextResponse.json(
       { 

@@ -28,7 +28,7 @@ export default function ManageSubscriptionButtonWithCheck({
 
     );
   }
-  if(session?.status){
+  if(!session?.status){
   return (
     <div className="hidden items-center space-x-4 md:flex">
       <Link

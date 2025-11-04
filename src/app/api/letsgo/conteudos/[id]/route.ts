@@ -8,8 +8,9 @@ export async function GET(
 ) {
   try {
     const id = parseInt((await params).id, 10);
-    const userId = await verifyUser();
-    if (userId instanceof NextResponse) return userId; 
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const conteudo = await prisma.conteudo.findUnique({
       where: { id: id }

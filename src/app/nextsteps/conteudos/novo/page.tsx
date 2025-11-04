@@ -18,7 +18,7 @@ export default function NovoConteudoPage() {
 
   const fetchCategorias = async () => {
     try {
-      const response = await fetch('/api/letsgo/categorias?page=1&limit=999')
+      const response = await fetch('/api/nextsteps/categorias')
       const result = await response.json()
       
       if (result.success) {

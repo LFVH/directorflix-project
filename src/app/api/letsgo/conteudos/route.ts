@@ -4,9 +4,9 @@ import { verifyUser } from "@/utils/verifyUserAuth"
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
-
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
@@ -83,8 +83,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const formData = await request.formData()
     

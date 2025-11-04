@@ -125,8 +125,7 @@ export default function PricingSection({
       </div>
     );
   }
-
-  if (session?.status === 'ativo') {
+  if (session?.status) {
     return (
       <div className={`flex items-center justify-center bg-gray-50 ${className}`}>
         <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">

@@ -38,7 +38,6 @@ const getCategoriasPaginadas = (categoriasParaFiltrar: CategoriaWithUrls[], page
       }
     }
 
-    // ... resto do código permanece igual
     if (tipoFiltro === 'categoria') {
       const categoriaFiltrada = categoriasParaFiltrar.find(c => c.id === filtroAtivo)    
       return {

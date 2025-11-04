@@ -36,7 +36,9 @@ export interface CategoriaWithUrls {
   nome: string | null
   name: string | null
   descricao?: string | null
+  isFree: boolean
   conteudos: ConteudoWithUrl[] // 🔥 Usa o tipo corrigido
+  conteudosBloqueados?: number // Adicione esta propriedade
   createdAt: string
   updatedAt: string
 }

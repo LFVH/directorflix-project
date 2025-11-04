@@ -1,4 +1,3 @@
-// src/app/api/nextsteps/categorias/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma"
 import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth"
@@ -6,8 +5,9 @@ import { logNow } from '@/utils/Logging'
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
@@ -70,11 +70,11 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// src/app/api/nextsteps/categorias/route.ts
 export async function POST(request: NextRequest) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }

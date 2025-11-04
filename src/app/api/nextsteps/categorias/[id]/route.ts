@@ -1,4 +1,3 @@
-// src/app/api/nextsteps/categorias/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma"
 import { isActuallyChief, verifyUser } from "@/utils/verifyUserAuth"
@@ -8,8 +7,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
     if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
@@ -17,7 +17,6 @@ export async function PUT(
     const body = await request.json()
     const { nome, name, descricao } = body
 
-    // Verificar se categoria existe
     const categoriaExistente = await prisma.categoria.findUnique({
       where: { id: parseInt((await params).id) }
     })
@@ -67,16 +66,15 @@ export async function PUT(
   }
 }
 
-// src/app/api/nextsteps/categorias/[id]/route.ts
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
-    // Verificar se categoria existe
     const categoria = await prisma.categoria.findUnique({
       where: { id: parseInt((await params).id) },
       include: {
@@ -95,7 +93,6 @@ export async function DELETE(
       )
     }
 
-    // Verificar se tem conteúdos associados
     if (categoria._count.conteudos > 0) {
       return NextResponse.json(
         { 
@@ -123,14 +120,14 @@ export async function DELETE(
   }
 }
 
-// src/app/api/nextsteps/categorias/[id]/route.ts
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser()
-    if (userId instanceof NextResponse) return userId
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const categoria = await prisma.categoria.findUnique({
       where: { id: parseInt((await params).id) },

@@ -1,4 +1,3 @@
-// app/api/letsgo/categorias/[id]/route.ts - GET específico
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from "@/database/prisma"
 import { verifyUser } from "@/utils/verifyUserAuth"
@@ -8,8 +7,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const userId = await verifyUser();
-    if (userId instanceof NextResponse) return userId;
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
 
     const categoria = await prisma.categoria.findUnique({
       where: { id: parseInt((await  params).id) },

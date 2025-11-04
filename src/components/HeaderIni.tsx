@@ -22,12 +22,6 @@ export default function Header() {
               >
                 Entrar
               </Link>
-              <Link 
-                href="/signup" 
-                className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
-              >
-                Cadastrar
-              </Link>
             </>
           ) : (
             <button 
@@ -39,6 +33,7 @@ export default function Header() {
               </svg>
               Sair
             </button>
+            
           )}
         </div>
       </div>

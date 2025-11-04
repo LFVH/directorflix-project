@@ -6,18 +6,18 @@ import { useRouter } from 'next/navigation';
 import { LoginForm } from '@/app/(auth)/login/form';
 import { SignupForm } from '@/app/(auth)/signup/form';
 
-type AuthMode = 'login' | 'signup';
+//true 'login' | false 'signup';
 
 export default function AuthPage() {
-  const [mode, setMode] = useState<AuthMode>('login');
+  const [mode, setMode] = useState(false);
   const router = useRouter();
 
   const handleLoginSuccess = () => {
-    router.push('/letsgo');
+    router.push('/');
   };
 
   const handleSignupSuccess = () => {
-    router.push('/letsgo');
+    router.push('/');
   };
 
   return (
@@ -25,9 +25,9 @@ export default function AuthPage() {
       {/* Abas */}
       <div className="flex border-b border-gray-600 mb-6">
         <button
-          onClick={() => setMode('login')}
+          onClick={() => setMode(false)}
           className={`flex-1 py-3 text-center font-medium transition-colors ${
-            mode === 'login'
+            mode
               ? 'text-red-500 border-b-2 border-red-500'
               : 'text-gray-400 hover:text-gray-300'
           }`}
@@ -35,9 +35,9 @@ export default function AuthPage() {
           Login
         </button>
         <button
-          onClick={() => setMode('signup')}
+          onClick={() => setMode(false)}
           className={`flex-1 py-3 text-center font-medium transition-colors ${
-            mode === 'signup'
+           !mode
               ? 'text-red-500 border-b-2 border-red-500'
               : 'text-gray-400 hover:text-gray-300'
           }`}
@@ -49,11 +49,11 @@ export default function AuthPage() {
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold text-white">
-          {mode === 'login' ? 'Welcome Back' : 'Create Account' 
+          {mode ? 'Welcome Back' : 'Create Account' 
           }
         </h1>
         <p className="text-gray-300 mt-2">
-          {mode === 'login' 
+          {mode
             ? 'Entre com suas credenciais para acessar sua conta'
             : 'Junte-se a nós hoje e mude para melhor'
           }
@@ -62,7 +62,7 @@ export default function AuthPage() {
 
       {/* Form */}
       <div className="mt-4">
-        {mode === 'login' ? (
+        {mode ? (
           <LoginForm onLoginSuccess={handleLoginSuccess} />
         ) : (
           <SignupForm onLoginSuccess={handleSignupSuccess} />

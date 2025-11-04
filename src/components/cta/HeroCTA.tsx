@@ -90,26 +90,12 @@ export default function HeroCTA() {
           <h3 className="text-2xl font-bold text-white mb-4">
             Comece a Criar com Mais Inspiração
           </h3>
-          <p className="text-gray-300 mb-6">
-            Digite seu email para acessar planos e começar hoje mesmo
-          </p>
-
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu.email@studio.com"
-              className="flex-1 px-6 py-4 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition-colors"
-              required
-            />
-            <button
-              type="submit"
-              className="px-8 py-4 bg-gradient-to-r from-red-600 to-purple-600 text-white font-bold rounded-lg hover:from-red-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-red-500/25"
-            >
-              Comecar de gratis (TODO)
-            </button>
-          </form>
+          <Link 
+            href="/signup" 
+            className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
+          >
+            Cadastre-se e acesse grátis
+          </Link>
 
           <p className="text-gray-400 text-sm mt-4">
             🔒 Seus dados estão seguros. Não compartilhamos seu email com terceiros.

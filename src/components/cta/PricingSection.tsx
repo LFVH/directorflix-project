@@ -185,13 +185,6 @@ export default function PricingSection({
               </div>
             )}
   
-            {/* Garantia */}
-            <div className="mt-8 p-6 bg-gray-800/50 rounded-lg border border-gray-700">
-              <p className="text-gray-300">
-                <span className="text-green-400 font-bold">🎯 Garantia de 7 dias:</span> 
-                Se não gostar, devolvemos seu dinheiro. Sem perguntas.
-              </p>
-            </div>
           </div>
         </div>
       </div>

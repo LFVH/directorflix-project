@@ -91,10 +91,17 @@ export async function GET(request: NextRequest) {
           ? { ...categoriaSemCount, conteudosBloqueados }
           : categoriaSemCount;
       })
+      
+      const totalCategoriasBloqueadas = await prisma.categoria.count({
+        where: {
+          isFree: false
+        }
+      })
 
       return NextResponse.json({
         success: true,
         data: categoriasComBloqueados,
+        estatisticas: totalCategoriasBloqueadas > 0 ? totalCategoriasBloqueadas : undefined,
         userType: 'free'
       })
     }

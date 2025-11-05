@@ -1,10 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import { CategoriaWithUrls } from '@/types'
 
+interface CategoriasData {
+  categorias: CategoriaWithUrls[]
+  estatisticas?: number
+  userType: 'free' | 'premium'
+}
+
 export const useCategorias = () => {
   return useQuery({
     queryKey: ['categorias'],
-    queryFn: async (): Promise<CategoriaWithUrls[]> => {
+    queryFn: async (): Promise<CategoriasData> => {
       const response = await fetch('/api/letsgo/categorias', {
         method: 'GET',
         headers: {
@@ -18,16 +24,21 @@ export const useCategorias = () => {
       }
       
       const result = await response.json()
-      const categorias = result.data
       
-      // Adiciona URLs para os GIFs
-      return categorias.map((categoria: any) => ({
+      // Processa as categorias adicionando URLs
+      const categoriasProcessadas = result.data.map((categoria: any) => ({
         ...categoria,
         conteudos: categoria.conteudos.map((conteudo: any) => ({
           ...conteudo,
           url: conteudo.link || `/api/letsgo/conteudos/${conteudo.id}`
         }))
       }))
+
+      return {
+        categorias: categoriasProcessadas,
+        estatisticas: result.estatisticas,
+        userType: result.userType
+      }
     },
     staleTime: 5 * 60 * 1000,
     retry: 2,

@@ -8,9 +8,10 @@ import HeaderWithCategories from '@/components/letsgo/HeaderWithCategories'
 import { useCategorias } from '@/hooks/useCategorias'
 
 export default function DirectorPage() {
-  const { data: categorias, isLoading: bannerLoading } = useCategorias()
+  const { data, isLoading: bannerLoading } = useCategorias()
   const { filtroAtivo, tipoFiltro, termoPesquisa } = useGlobalFilter()
-
+  const categorias = data?.categorias || []
+  const nrCategoriasBloq = data?.estatisticas
   if (bannerLoading) {
     return <LoadingSpinner />
   }
@@ -26,6 +27,7 @@ export default function DirectorPage() {
           filtroAtivo={filtroAtivo}
           tipoFiltro={tipoFiltro}
           termoPesquisa={termoPesquisa}
+          nrCategoriasBloq={nrCategoriasBloq}
         />
       </main>
   )

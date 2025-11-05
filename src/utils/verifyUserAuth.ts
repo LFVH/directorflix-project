@@ -50,7 +50,7 @@ export async function userExists(): Promise<Usuario | NextResponse>  {
     }
     
     return NextResponse.json(
-      { success: false, body: { message: "Usuário não encontrado." } },
+      { success: false, body: { message: "Usuário ou senha incorretos." } },
       { status: 400 }
     );
 }

@@ -25,7 +25,7 @@ const AuthHandler :AuthOptions= {
           where: { email: credentials.email },
         });
         if (!user) {
-          throw new Error("Usuário não encontrado.");
+          throw new Error("Usuário ou senha incorretos.");
         }
         if (user.isBlocked) {
           throw new Error("Código 101");

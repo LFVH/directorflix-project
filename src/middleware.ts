@@ -80,11 +80,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
-  if(token && token.user?.status){
-    if (!request.nextUrl.pathname.startsWith("/letsgo")) {
-      return NextResponse.redirect(new URL("/letsgo", request.url));
-    }
-  }
+
   const chiefRoutes = process.env.CHIEF_ROUTES?.split(',') || ['/admin'];
   const isChiefRoute = chiefRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
@@ -102,6 +98,13 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       }
       return NextResponse.redirect(new URL('/_not-found', request.url));
     }
+    return NextResponse.next()
   }
+  if(token && token.user?.status){
+    if (!request.nextUrl.pathname.startsWith("/letsgo")) {
+      return NextResponse.redirect(new URL("/letsgo", request.url));
+    }
+  }
+  console.log("possível caso descoberto");
   return NextResponse.next()
 }

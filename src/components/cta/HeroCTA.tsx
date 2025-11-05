@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import PricingSection from './PricingSection'
 import HeaderIni from '../HeaderIni'
+import { useSession } from 'next-auth/react'
 
 export default function HeroCTA() {
   const [email, setEmail] = useState('')
   const router = useRouter()
+  const { data: session } = useSession();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -90,12 +92,25 @@ export default function HeroCTA() {
           <h3 className="text-2xl font-bold text-white mb-4">
             Comece a Criar com Mais Inspiração
           </h3>
-          <Link 
-            href="/signup" 
+          {!session ? (
+            <>
+            <Link 
+              href="/signup" 
+              className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
+            >
+              Cadastre-se e acesse grátis
+            </Link>
+            </>
+          ) : (
+                      <Link 
+            href="/letsgo" 
             className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-lg hover:shadow-red-500/25"
           >
-            Cadastre-se e acesse grátis
+            Acesse grátis
           </Link>
+            
+          )}
+
 
           <p className="text-gray-400 text-sm mt-4">
             🔒 Seus dados estão seguros. Não compartilhamos seu email com terceiros.

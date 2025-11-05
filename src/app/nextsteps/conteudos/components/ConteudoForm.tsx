@@ -35,7 +35,7 @@ export default function ConteudoForm({ conteudo, categorias }: ConteudoFormProps
       if (conteudo.link) {
         setPreviewUrl(conteudo.link)
       } else if (conteudo.id) {
-        setPreviewUrl(`/api/nextsteps/conteudos/${conteudo.id}`)
+        setPreviewUrl(`/api/nextsteps/conteudo/${conteudo.id}`)
       }
     }
   }, [conteudo])

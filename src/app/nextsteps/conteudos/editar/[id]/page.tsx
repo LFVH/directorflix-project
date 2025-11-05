@@ -22,7 +22,7 @@ export default function EditarConteudoPage() {
   const fetchData = async () => {
     try {
       const [conteudoResponse, categoriasResponse] = await Promise.all([
-        fetch(`/api/nextsteps/conteudo/${params.id}`),
+        fetch(`/api/nextsteps/conteudos/${params.id}`),
         fetch('/api/nextsteps/categorias')
       ])
 

@@ -17,9 +17,9 @@ export default function Layout({
       <div className="border-b border-gray-800 bg-black/95 backdrop-blur-sm">
         <div className="container mx-auto flex max-w-7xl items-center justify-between p-4 md:px-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/letsgo" className="flex items-center space-x-2">
             <div className="text-red-600 font-bold text-2xl tracking-tight">
-              Director's Flix
+              Director's Flix (/letsgo)
             </div>
           </Link>
 

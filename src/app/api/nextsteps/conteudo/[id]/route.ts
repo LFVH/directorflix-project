@@ -30,43 +30,41 @@ export async function DELETE(
     )
   }
 }
-//muito simples, usado o do conteudos
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
+    const id = parseInt((await params).id, 10);
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const conteudo = await prisma.conteudo.findUnique({
-      where: { id: parseInt((await params).id) },
-      include: {
-        categorias: {
-          select: {
-            id: true,
-            nome: true,
-            name: true
-          }
-        }
-      }
+      where: { id: id }
     })
 
     if (!conteudo) {
       return NextResponse.json(
-        { success: false, error: 'Conteúdo não encontrado' },
+        { error: 'Conteúdo não encontrado' },
         { status: 404 }
       )
     }
-
-    return NextResponse.json({
-      success: true,
-      data: conteudo
+    const buffer = Buffer.from(conteudo.data)
+    
+    return new NextResponse(buffer, {
+    headers: {
+        'Content-Type': conteudo.mimetype,
+        'Content-Disposition': `inline; filename="${conteudo.filename}"`,
+        'Content-Length': buffer.length.toString(),
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
     })
   } catch (error) {
     console.error('Erro ao buscar conteúdo:', error)
     return NextResponse.json(
-      { success: false, error: 'Erro interno do servidor' },
+      { error: 'Erro interno do servidor' },
       { status: 500 }
     )
   }

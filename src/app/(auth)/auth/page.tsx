@@ -25,7 +25,7 @@ export default function AuthPage() {
       {/* Abas */}
       <div className="flex border-b border-gray-600 mb-6">
         <button
-          onClick={() => setMode(false)}
+          onClick={() => setMode(true)}
           className={`flex-1 py-3 text-center font-medium transition-colors ${
             mode
               ? 'text-red-500 border-b-2 border-red-500'

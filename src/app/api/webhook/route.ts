@@ -113,6 +113,7 @@ export async function POST(req: Request) {
            dtIniPremium: new Date(),
            dtFimPremium: currentPeriodEnd,
            statusAss: 6,
+           isPremium: true
          },
        });
 

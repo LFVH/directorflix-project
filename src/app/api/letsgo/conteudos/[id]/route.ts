@@ -13,7 +13,9 @@ export async function GET(
     const { userId, isPremium } = authResult;
     if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const conteudo = await prisma.conteudo.findUnique({
-      where: { id: id }
+      where: { id: id,
+        ...(!isPremium && { isFree: isPremium })
+       }
     })
 
     if (!conteudo) {

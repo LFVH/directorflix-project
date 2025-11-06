@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import SearchBarNxt from '@/components/SearchBarNxt'
+import { ToggleStatus } from '@/components/ToggleStatus'
 
 interface Conteudo {
   id: number
@@ -12,6 +13,7 @@ interface Conteudo {
   mimetype: string
   link?: string
   linkext?: string
+  isFree: boolean
   categorias: Array<{ id: number; nome: string; name: string }>
   createdAt: string
 }
@@ -86,18 +88,6 @@ export default function ConteudosPage() {
     }
   }
 
-  const handleNextPage = () => {
-    if (pagination.hasNextPage) {
-      fetchConteudos(pagination.nextPage!, searchTerm)
-    }
-  }
-
-  const handlePrevPage = () => {
-    if (pagination.hasPrevPage) {
-      fetchConteudos(pagination.prevPage!, searchTerm)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-black p-6">
       <div className="max-w-7xl mx-auto">
@@ -159,9 +149,31 @@ export default function ConteudosPage() {
 
               {/* Informações */}
               <div className="p-4">
-                <h3 className="text-white font-semibold text-lg mb-2 truncate">
-                  {conteudo.nome || conteudo.name || 'Sem nome'}
-                </h3>
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold text-lg truncate">
+                      {conteudo.nome || conteudo.name || 'Sem nome'}
+                    </h3>
+                  </div>
+                  
+                  {/* Toggle Status com Título Melhorado */}
+                  <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
+                    <span className={`text-xs font-medium ${
+                      conteudo.isFree ? 'text-green-400' : 'text-purple-400'
+                    }`}>
+                      {conteudo.isFree ? '🎁 Gratuito' : '💎 Pago'}
+                    </span>
+                    <ToggleStatus
+                      id={conteudo.id}
+                      status={conteudo.isFree}
+                      type="conteudo"
+                      onStatusChange={(newStatus) => {
+                        // Atualiza o estado local se necessário
+                        console.log('Status atualizado:', newStatus);
+                      }}
+                    />
+                  </div>
+                </div>
                 
                 <p className="text-gray-400 text-sm mb-3 truncate">
                   {conteudo.filename}
@@ -175,7 +187,7 @@ export default function ConteudosPage() {
                     </span>
                   </div>
                 )}
-
+    
                 {/* Categorias */}
                 <div className="flex flex-wrap gap-1 mb-4">
                   {conteudo.categorias.map((categoria) => (
@@ -245,33 +257,33 @@ export default function ConteudosPage() {
         )}
 
          {pagination.totalPages > 1 && (
-    <div className="flex justify-center items-center gap-4 mt-8">
-      <button
-        onClick={() => fetchConteudos(pagination.prevPage!, searchTerm)}
-        disabled={!pagination.hasPrevPage}
-        className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
-      >
-        Anterior
-      </button>
+        <div className="flex justify-center items-center gap-4 mt-8">
+          <button
+            onClick={() => fetchConteudos(pagination.prevPage!, searchTerm)}
+            disabled={!pagination.hasPrevPage}
+            className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+          >
+            Anterior
+          </button>
 
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-white">
-          Página {pagination.currentPage} de {pagination.totalPages}
-        </span>
-        <span className="text-gray-400">
-          ({pagination.totalItems} itens)
-        </span>
-      </div>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-white">
+              Página {pagination.currentPage} de {pagination.totalPages}
+            </span>
+            <span className="text-gray-400">
+              ({pagination.totalItems} itens)
+            </span>
+          </div>
 
-      <button
-        onClick={() => fetchConteudos(pagination.nextPage!, searchTerm)}
-        disabled={!pagination.hasNextPage}
-        className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
-      >
-        Próxima
-      </button>
-    </div>
-  )}
+          <button
+            onClick={() => fetchConteudos(pagination.nextPage!, searchTerm)}
+            disabled={!pagination.hasNextPage}
+            className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+          >
+            Próxima
+          </button>
+        </div>
+      )}
 
       </div>
     </div>

@@ -10,12 +10,14 @@ export async function DELETE(
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
       )
     await prisma.conteudo.delete({
-      where: { id: parseInt((await  params).id) }
+      where: { id: id }
     })
 
     return NextResponse.json({
@@ -36,10 +38,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string; }>; }
 ) {
   try {
-    const id = parseInt((await params).id, 10);
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
+    const id = parseInt((await params).id, 10);
     if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const conteudo = await prisma.conteudo.findUnique({
       where: { id: id }
@@ -78,9 +80,19 @@ export async function PUT(
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
-
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const formData = await request.formData()
-    
+    const conteudoExistente = await prisma.conteudo.findUnique({
+      where: { id: id }
+    })
+
+    if (!conteudoExistente) {
+      return NextResponse.json(
+        { success: false, error: 'Conteudo não encontrada' },
+        { status: 404 }
+      )
+    }
     const nome = formData.get('nome') as string
     const name = formData.get('name') as string
     const fonte = formData.get('fonte') as string
@@ -137,6 +149,52 @@ export async function PUT(
     })
   } catch (error) {
     console.error('Erro ao atualizar conteúdo:', error)
+    return NextResponse.json(
+      { success: false, error: 'Erro interno do servidor' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string; }>; }
+) {
+  try {
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
+    if(!isActuallyChief(userId)) return NextResponse.json(
+        { success: false, error: '404 Not Found' },
+        { status: 403 }
+      ) 
+    const conteudoExistente = await prisma.conteudo.findUnique({
+      where: { id: id }
+    })
+
+    if (!conteudoExistente) {
+      return NextResponse.json(
+        { success: false, error: 'Conteudo não encontrad' },
+        { status: 404 }
+      )
+    }
+
+    const conteudo = await prisma.conteudo.update({
+      where: { id: id },
+      data: {
+        isFree: !conteudoExistente.isFree
+      },
+    })
+
+    return NextResponse.json({
+      success: true,
+      data: conteudo,
+      message: 'Atualizada com sucesso para ' + conteudo.isFree
+    })
+  } catch (error: any) {
+    console.error('Erro ao atualizar conteudo:', error)
     return NextResponse.json(
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }

@@ -7,7 +7,10 @@ export async function GET(request: NextRequest) {
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
-
+    if(!isActuallyChief(userId)) return NextResponse.json(
+        { success: false, error: '404 Not Found' },
+        { status: 403 }
+    ) 
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')

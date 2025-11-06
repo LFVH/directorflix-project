@@ -10,6 +10,8 @@ export async function PUT(
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     if(!isActuallyChief(userId)) return NextResponse.json(
         { success: false, error: '404 Not Found' },
         { status: 403 }
@@ -18,7 +20,7 @@ export async function PUT(
     const { nome, name, descricao } = body
 
     const categoriaExistente = await prisma.categoria.findUnique({
-      where: { id: parseInt((await params).id) }
+      where: { id: id}
     })
 
     if (!categoriaExistente) {
@@ -29,7 +31,7 @@ export async function PUT(
     }
 
     const categoria = await prisma.categoria.update({
-      where: { id: parseInt((await params).id) },
+      where: { id: id },
       data: {
         nome: nome !== undefined ? nome : categoriaExistente.nome,
         name: name !== undefined ? name : categoriaExistente.name,
@@ -74,9 +76,10 @@ export async function DELETE(
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
-
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const categoria = await prisma.categoria.findUnique({
-      where: { id: parseInt((await params).id) },
+      where: { id: id},
       include: {
         _count: {
           select: {
@@ -104,7 +107,7 @@ export async function DELETE(
     }
 
     await prisma.categoria.delete({
-      where: { id: parseInt((await params).id) }
+      where: { id: id }
     })
 
     return NextResponse.json({
@@ -128,9 +131,10 @@ export async function GET(
     const authResult = await verifyUser();
     if (authResult instanceof NextResponse) return authResult;
     const { userId, isPremium } = authResult;
-
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
     const categoria = await prisma.categoria.findUnique({
-      where: { id: parseInt((await params).id) },
+      where: { id: id },
       include: {
         _count: {
           select: {
@@ -153,6 +157,52 @@ export async function GET(
     })
   } catch (error) {
     console.error('Erro ao buscar categoria:', error)
+    return NextResponse.json(
+      { success: false, error: 'Erro interno do servidor' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string; }>; }
+) {
+  try {
+    const authResult = await verifyUser();
+    if (authResult instanceof NextResponse) return authResult;
+    const { userId, isPremium } = authResult;
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ message: "id inválido" }, { status: 400 });
+    if(!isActuallyChief(userId)) return NextResponse.json(
+        { success: false, error: '404 Not Found' },
+        { status: 403 }
+      ) 
+    const categoriaExistente = await prisma.categoria.findUnique({
+      where: { id: id }
+    })
+
+    if (!categoriaExistente) {
+      return NextResponse.json(
+        { success: false, error: 'Categoria não encontrada' },
+        { status: 404 }
+      )
+    }
+
+    const categoria = await prisma.categoria.update({
+      where: { id: id },
+      data: {
+        isFree: !categoriaExistente.isFree
+      },
+    })
+
+    return NextResponse.json({
+      success: true,
+      data: categoria,
+      message: 'Atualizada com sucesso para ' + categoria.isFree
+    })
+  } catch (error: any) {
+    console.error('Erro ao atualizar categoria:', error)
     return NextResponse.json(
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }

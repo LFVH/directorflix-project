@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import SearchBarNxt from '@/components/SearchBarNxt'
+import { ToggleStatus } from '@/components/ToggleStatus'
 
 interface Categoria {
   id: number
@@ -11,6 +12,7 @@ interface Categoria {
   descricao: string | null
   createdAt: string
   updatedAt: string
+  isFree: boolean
   _count: {
     conteudos: number
   }
@@ -183,7 +185,23 @@ export default function CategoriasPage() {
                   <div>EN: {categoria.name}</div>
                 )}
               </div>
-
+               {/* Toggle Status com Título Melhorado */}
+              <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
+                <span className={`text-xs font-medium ${
+                  categoria.isFree ? 'text-green-400' : 'text-purple-400'
+                }`}>
+                  {categoria.isFree ? '🎁 Gratuito' : '💎 Pago'}
+                </span>
+                <ToggleStatus
+                  id={categoria.id}
+                  status={categoria.isFree}
+                  type="categorias"
+                  onStatusChange={(newStatus) => {
+                    // Atualiza o estado local se necessário
+                    console.log('Status atualizado:', newStatus);
+                  }}
+                />
+              </div>
               {/* Ações */}
               <div className="flex gap-2">
                 <Link

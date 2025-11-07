@@ -28,14 +28,23 @@ export function UserButton() {
       title="Gerencie sua assinatura"
     >
       {session.user?.image ? (
-        <img
-          src={session.user.image}
-          alt={session.user.name || 'User'}
-          className="w-8 h-8 rounded-full object-cover"
-        />
-      ) : (
-        <UserIcon />
-      )}
+      <img
+        src={session.user.image}
+        alt={session.user.name || 'User'}
+        className="w-8 h-8 rounded-full object-cover"
+      />
+    ) : (
+      <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+        <span className="text-white text-xs font-bold">
+          {session.user?.name
+            ?.split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2)}
+        </span>
+      </div>
+    )}
     </button>
   );
 }

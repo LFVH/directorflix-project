@@ -180,18 +180,34 @@ export async function PATCH(
         { status: 404 }
       )
     }
-
-    const conteudo = await prisma.conteudo.update({
+        const body = await request.json()
+    const { toggle } = body
+    if(!toggle) {
+      return NextResponse.json(
+        { success: false, error: 'O que fazer?' },
+        { status: 404 }
+      )
+    }
+    let conteudo;
+    if(toggle ==='isfree'){
+      conteudo = await prisma.conteudo.update({
       where: { id: id },
       data: {
         isFree: !conteudoExistente.isFree
       },
     })
-
+  } else if (toggle ==='istrend'){
+      conteudo = await prisma.conteudo.update({
+      where: { id: id },
+      data: {
+        isTrend: !conteudoExistente.isTrend
+      },
+    })
+  }
     return NextResponse.json({
       success: true,
       data: conteudo,
-      message: 'Atualizada com sucesso para ' + conteudo.isFree
+      message: 'Atualizada com sucesso'
     })
   } catch (error: any) {
     console.error('Erro ao atualizar conteudo:', error)

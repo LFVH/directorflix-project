@@ -6,6 +6,7 @@ import SearchBarNxt from '@/components/SearchBarNxt'
 import { ToggleStatus } from '@/components/ToggleStatus'
 
 interface Categoria {
+  isTrend: boolean
   id: number
   nome: string | null
   name: string | null
@@ -198,9 +199,25 @@ export default function CategoriasPage() {
                   type="categorias"
                   onStatusChange={(newStatus) => {
                     // Atualiza o estado local se necessário
-                    console.log('Status atualizado:', newStatus);
-                  }}
-                />
+                    console.log('Status atualizado:', newStatus)
+                  } }
+                  toggle={'isfree'}                />
+              </div>
+              <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
+                <span className={`text-xs font-medium ${
+                  categoria.isTrend ? 'text-green-400' : 'text-purple-400'
+                }`}>
+                  {categoria.isTrend ? '🔥 Trend' : 'Normal'}
+                </span>
+                <ToggleStatus
+                  id={categoria.id}
+                  status={categoria.isTrend}
+                  type="categorias"
+                  onStatusChange={(newStatus) => {
+                    // Atualiza o estado local se necessário
+                    console.log('Status atualizado:', newStatus)
+                  } }
+                  toggle={'istrend'}                />
               </div>
               {/* Ações */}
               <div className="flex gap-2">

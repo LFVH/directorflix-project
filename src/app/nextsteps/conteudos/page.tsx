@@ -6,6 +6,7 @@ import SearchBarNxt from '@/components/SearchBarNxt'
 import { ToggleStatus } from '@/components/ToggleStatus'
 
 interface Conteudo {
+  isTrend: boolean
   id: number
   nome: string
   name: string
@@ -169,9 +170,25 @@ export default function ConteudosPage() {
                       type="conteudo"
                       onStatusChange={(newStatus) => {
                         // Atualiza o estado local se necessário
-                        console.log('Status atualizado:', newStatus);
-                      }}
-                    />
+                        console.log('Status atualizado:', newStatus)
+                      } }
+                      toggle={'isfree'}                    />
+                  </div>
+                  <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
+                    <span className={`text-xs font-medium ${
+                      conteudo.isTrend ? 'text-green-400' : 'text-purple-400'
+                    }`}>
+                      {conteudo.isTrend ? '🔥 Trend' : 'Normal'}
+                    </span>
+                    <ToggleStatus
+                      id={conteudo.id}
+                      status={conteudo.isTrend}
+                      type="conteudo"
+                      onStatusChange={(newStatus) => {
+                        // Atualiza o estado local se necessário
+                        console.log('Status atualizado:', newStatus)
+                      } }
+                      toggle={'istrend'}                    />
                   </div>
                 </div>
                 

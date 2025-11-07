@@ -62,6 +62,7 @@ model Conteudo {
   mimetype       String
   data           Bytes
   isFree         Boolean  @default(false)
+  isTrend        Boolean  @default(false)
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
   categorias     Categoria[]
@@ -74,6 +75,7 @@ model Categoria {
   name           String?  @unique
   descricao      String?
   isFree         Boolean  @default(false)
+  isTrend        Boolean  @default(false)
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
   conteudos      Conteudo[]

@@ -8,10 +8,11 @@ interface ToggleStatusProps {
   id: number;
   status: boolean;
   type: 'conteudo' | 'categorias';
+  toggle: 'isfree' | 'istrend'
   onStatusChange?: (newStatus: boolean) => void;
 }
 
-export function ToggleStatus({ id, status, type, onStatusChange }: ToggleStatusProps) {
+export function ToggleStatus({ id, status, type, toggle, onStatusChange }: ToggleStatusProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(status);
 
@@ -33,7 +34,7 @@ export function ToggleStatus({ id, status, type, onStatusChange }: ToggleStatusP
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          status: !currentStatus
+          toggle: toggle
         }),
       });
 

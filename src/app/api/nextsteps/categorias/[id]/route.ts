@@ -188,18 +188,34 @@ export async function PATCH(
         { status: 404 }
       )
     }
-
-    const categoria = await prisma.categoria.update({
+    const body = await request.json()
+    const { toggle } = body
+    if(!toggle) {
+      return NextResponse.json(
+        { success: false, error: 'O que fazer?' },
+        { status: 404 }
+      )
+    }
+    let categoria;
+    if(toggle ==='isfree'){
+      categoria = await prisma.categoria.update({
       where: { id: id },
       data: {
         isFree: !categoriaExistente.isFree
       },
     })
-
+  } else if (toggle ==='istrend'){
+      categoria = await prisma.categoria.update({
+      where: { id: id },
+      data: {
+        isTrend: !categoriaExistente.isTrend
+      },
+    })
+  }
     return NextResponse.json({
       success: true,
       data: categoria,
-      message: 'Atualizada com sucesso para ' + categoria.isFree
+      message: 'Atualizada com sucesso'
     })
   } catch (error: any) {
     console.error('Erro ao atualizar categoria:', error)

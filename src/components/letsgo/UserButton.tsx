@@ -18,7 +18,7 @@ export function UserButton() {
   }
 
   if (!session) {
-    return null; // Não mostra o botão se não estiver logado
+    return null; 
   }
 
   return (

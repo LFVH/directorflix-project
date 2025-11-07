@@ -7,26 +7,29 @@ export interface Conteudo {
   createdAt: Date
   nome: string
   name: string
+  isTrend: boolean
 }
 
 export interface ConteudoWithUrl {
-  id: string // 🔥 CORRIGIDO: string em vez de number
+  isTrend: boolean
+  id: string 
   nome: string | null
   name: string | null
   filename: string
   mimetype: string
   link?: string | null
   data: Buffer
-  linkext?: string | null // 🔥 link externo
+  linkext?: string | null 
   url: string
   createdAt: Date
-  categorias?: Categoria[] // 🔥 Opcional: categorias relacionadas
+  categorias?: Categoria[]
 }
 export interface Categoria {
   id: string
   nome: string
   descricao?: string
   conteudos: Conteudo[]
+  isTrend: boolean
   createdAt: Date
 }
 
@@ -37,8 +40,9 @@ export interface CategoriaWithUrls {
   name: string | null
   descricao?: string | null
   isFree: boolean
-  conteudos: ConteudoWithUrl[] // 🔥 Usa o tipo corrigido
-  conteudosBloqueados?: number // Adicione esta propriedade
+  isTrend: boolean
+  conteudos: ConteudoWithUrl[] 
+  conteudosBloqueados?: number 
   createdAt: string
   updatedAt: string
 }

@@ -89,10 +89,23 @@ export default function ConteudosPage() {
     }
   }
 
+  const handleStatusChange = (conteudoId: number, newBool: boolean, toggle: string) => {
+    setConteudos(prev => 
+      prev.map(conteudo => 
+        conteudo.id === conteudoId 
+          ? { 
+              ...conteudo, 
+              ...(toggle === 'isfree' && { isFree: newBool }),
+              ...(toggle === 'istrend' && { isTrend: newBool })
+            }
+          : conteudo
+      )
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black p-6">
       <div className="max-w-7xl mx-auto">
-        {/* 🔥 HEADER ATUALIZADO */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">Gerenciar Conteúdos</h1>
@@ -100,7 +113,6 @@ export default function ConteudosPage() {
           </div>
           
           <div className="flex items-center gap-4">
-            {/* 🔥 BARRA DE PESQUISA ADMIN */}
             <SearchBarNxt 
               onSearch={handleSearch}
               placeholder="Buscar por nome, arquivo ou categoria..."
@@ -139,7 +151,6 @@ export default function ConteudosPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {conteudos.map((conteudo) => (
             <div key={conteudo.id} className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-gray-600 transition-colors">
-              {/* Preview */}
               <div className="h-48 bg-gray-900 flex items-center justify-center">
                 <img
                   src={conteudo.link || `/api/nextsteps/conteudo/${conteudo.id}`}
@@ -148,7 +159,6 @@ export default function ConteudosPage() {
                 />
               </div>
 
-              {/* Informações */}
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1 min-w-0">
@@ -157,7 +167,6 @@ export default function ConteudosPage() {
                     </h3>
                   </div>
                   
-                  {/* Toggle Status com Título Melhorado */}
                   <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
                     <span className={`text-xs font-medium ${
                       conteudo.isFree ? 'text-green-400' : 'text-purple-400'
@@ -169,14 +178,13 @@ export default function ConteudosPage() {
                       status={conteudo.isFree}
                       type="conteudo"
                       onStatusChange={(newStatus) => {
-                        // Atualiza o estado local se necessário
-                        console.log('Status atualizado:', newStatus)
-                      } }
+                        handleStatusChange(conteudo.id, newStatus, 'isfree');
+                      }}
                       toggle={'isfree'}                    />
                   </div>
                   <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
                     <span className={`text-xs font-medium ${
-                      conteudo.isTrend ? 'text-green-400' : 'text-purple-400'
+                      conteudo.isTrend ? 'text-orange-400' : 'text-gray-400'
                     }`}>
                       {conteudo.isTrend ? '🔥 Trend' : 'Normal'}
                     </span>
@@ -185,9 +193,8 @@ export default function ConteudosPage() {
                       status={conteudo.isTrend}
                       type="conteudo"
                       onStatusChange={(newStatus) => {
-                        // Atualiza o estado local se necessário
-                        console.log('Status atualizado:', newStatus)
-                      } }
+                        handleStatusChange(conteudo.id, newStatus, 'istrend');
+                      }}
                       toggle={'istrend'}                    />
                   </div>
                 </div>

@@ -68,7 +68,6 @@ export default function CategoriasPage() {
 
   const handleSearch = (termo: string) => {
     setSearchTerm(termo)
-    // Remove a verificação de página - o useEffect já cuida disso
   }
 
   const handleDelete = async (id: number) => {
@@ -104,6 +103,20 @@ export default function CategoriasPage() {
       fetchCategorias(pagination.prevPage!, searchTerm)
     }
   }
+
+  const handleStatusChange = (categoriaId: number, newBool: boolean, toggle: string) => {
+    setCategorias(prev => 
+      prev.map(categoria => 
+        categoria.id === categoriaId 
+          ? { 
+              ...categoria, 
+              ...(toggle === 'isfree' && { isFree: newBool }),
+              ...(toggle === 'istrend' && { isTrend: newBool })
+            }
+          : categoria
+      )
+    );
+  };
 
   return (
     <div className="min-h-screen bg-black p-6">
@@ -186,7 +199,6 @@ export default function CategoriasPage() {
                   <div>EN: {categoria.name}</div>
                 )}
               </div>
-               {/* Toggle Status com Título Melhorado */}
               <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
                 <span className={`text-xs font-medium ${
                   categoria.isFree ? 'text-green-400' : 'text-purple-400'
@@ -198,14 +210,13 @@ export default function CategoriasPage() {
                   status={categoria.isFree}
                   type="categorias"
                   onStatusChange={(newStatus) => {
-                    // Atualiza o estado local se necessário
-                    console.log('Status atualizado:', newStatus)
-                  } }
+                    handleStatusChange(categoria.id, newStatus, 'isfree');
+                  }}
                   toggle={'isfree'}                />
               </div>
               <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
                 <span className={`text-xs font-medium ${
-                  categoria.isTrend ? 'text-green-400' : 'text-purple-400'
+                  categoria.isTrend ? 'text-orange-400' : 'text-gray-400'
                 }`}>
                   {categoria.isTrend ? '🔥 Trend' : 'Normal'}
                 </span>
@@ -214,9 +225,8 @@ export default function CategoriasPage() {
                   status={categoria.isTrend}
                   type="categorias"
                   onStatusChange={(newStatus) => {
-                    // Atualiza o estado local se necessário
-                    console.log('Status atualizado:', newStatus)
-                  } }
+                    handleStatusChange(categoria.id, newStatus, 'istrend');
+                  }}
                   toggle={'istrend'}                />
               </div>
               {/* Ações */}

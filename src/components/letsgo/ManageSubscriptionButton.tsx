@@ -8,7 +8,7 @@ interface ManageSubscriptionButtonProps {
   className?: string;
   returnUrl?: string;
 }
-useEffect
+
 export default function ManageSubscriptionButtonWithCheck({ 
   className = '',
   returnUrl 

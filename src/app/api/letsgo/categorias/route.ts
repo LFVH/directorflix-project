@@ -26,7 +26,8 @@ export async function GET(request: NextRequest) {
                 linkext: true,
                 fonte: true,
                 createdAt: true,
-                isFree: true, // Adicione isso
+                isFree: true,
+                isTrend: true,
               },
               orderBy: { createdAt: 'desc' },
             }
@@ -63,6 +64,7 @@ export async function GET(request: NextRequest) {
               fonte: true,
               createdAt: true,
               isFree: true,
+              isTrend: true,
             },
             orderBy: { createdAt: 'desc' },
           },

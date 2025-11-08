@@ -95,18 +95,36 @@ export default function HeaderWithCategories() {
               Início
             </button>
             {categoriasPrincipais.map((categoria) => (
-              <button
-                key={categoria.id}
-                onClick={() => handleCategoriaClick(categoria.id)}
-                className={`${
-                  filtroAtivo === categoria.id && tipoFiltro === 'categoria'
-                    ? 'text-white font-bold bg-red-600 px-3 py-1 rounded-full' 
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-1 rounded-full'
-                } transition-colors whitespace-nowrap text-sm`}
-              >
-                {categoria.nome}
-              </button>
-            ))}
+      <div key={categoria.id} className="relative">
+        <button
+          onClick={() => handleCategoriaClick(categoria.id)}
+          className={`relative z-10 transition-all duration-300 whitespace-nowrap text-sm px-3 py-1 rounded-full ${
+            filtroAtivo === categoria.id && tipoFiltro === 'categoria'
+              ? 'text-white font-bold bg-red-600 shadow-lg shadow-red-500/30' 
+              : categoria.isTrend
+                ? 'text-white font-semibold bg-gradient-to-r from-orange-500 to-red-500 shadow-lg shadow-orange-500/40 hover:shadow-orange-500/60 hover:scale-105'
+                : 'text-gray-300 hover:text-white hover:bg-gray-800'
+          }`}
+        >
+          {categoria.nome}
+          
+          {/* Badge "TRENDING" para categorias em alta */}
+          {categoria.isTrend && (
+            <span className="absolute -top-2 -right-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+              </span>
+            </span>
+          )}
+        </button>
+        
+        {/* Efeito de brilho para categorias em alta não selecionadas */}
+        {categoria.isTrend && filtroAtivo !== categoria.id && (
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-full blur-sm animate-pulse-slow" />
+        )}
+      </div>
+    ))}
 
             {categoriasRestantes.length > 0 && (
               <div ref={dropdownRef} className="relative">

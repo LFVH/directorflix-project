@@ -267,7 +267,7 @@ export default function CarrosselCategoria({
             
             {/* Espaço reservado para conteúdos bloqueados no carrossel */}
             {categoria.conteudosBloqueados && categoria.conteudosBloqueados > 0 && (
-              <div className="flex-shrink-0 w-64 rounded-lg overflow-hidden bg-gray-800/30 border-2 border-dashed border-gray-600/50">
+              <div className="flex-shrink-0 w-64 rounded-lg overflow-hidden bg-gray-800/30 border-2 border-dashed border-gray-600/50 relative">
                 <LockedContentIndicator count={categoria.conteudosBloqueados} />
               </div>
             )}

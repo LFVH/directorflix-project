@@ -54,7 +54,7 @@ export default function HeaderWithCategories() {
   }
 
   const handleClearSearch = () => {
-    // Implementação do clear search
+    limparFiltros()
   }
 
   const handleClearAllFilters = () => {

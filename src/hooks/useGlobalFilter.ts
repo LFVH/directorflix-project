@@ -25,7 +25,7 @@ export const useGlobalFilter = create<GlobalFilterState>((set, get) => ({
   setFiltroPesquisa: (termo) => {
     set({ 
       termoPesquisa: termo,
-      filtroAtivo: termo,
+      filtroAtivo: termo ,
       tipoFiltro: termo ? 'search' : null
     })
   },

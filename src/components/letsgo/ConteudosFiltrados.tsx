@@ -76,7 +76,7 @@ export default function ConteudosFiltradosComScroll({
             onClick={limparFiltros}
             className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
           >
-            Ver Todas as Categorias
+            Ver Tudo
           </button>
         )}
       </div>

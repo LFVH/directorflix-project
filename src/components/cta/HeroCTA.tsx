@@ -41,11 +41,11 @@ export default function HeroCTA() {
   
   <div className="relative z-10 max-w-6xl mx-auto text-center pt-32">
     {/* Logo principal */}
-    <div className="mb-8">
+    <div className="">
       <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent mb-4">
         DIRECTOR'S FLIX
       </h1>
-      <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
+      
     </div>
 
         {/* Headline */}
@@ -54,11 +54,12 @@ export default function HeroCTA() {
         </h2>
         
         {/* Subheadline */}
-        <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-xl md:text-2xl text-gray-300 mb-2 max-w-3xl mx-auto leading-relaxed">
           Milhares de referências organizadas e categorizadas para 
           <span className="text-green-500 font-semibold"> acelerar sua criatividade</span> e 
           <span className="text-blue-600 font-semibold"> inspirar suas edições</span>
         </p>
+        <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-purple-600 mx-auto"></div>
         <PricingSection />
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">

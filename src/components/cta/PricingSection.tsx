@@ -136,7 +136,7 @@ export default function PricingSection({
   }
 
    return (
-      <div className={`py-16 px-4 sm:px-6 lg:px-8 ${className}`}>
+      <div className={`px-4 sm:px-6 lg:px-8 ${className}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl">

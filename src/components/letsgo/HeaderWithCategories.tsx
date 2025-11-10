@@ -33,6 +33,16 @@ export default function HeaderWithCategories() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && filtroAtivo) {
+        limparFiltros();
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [filtroAtivo])
+
   const categoriasPrincipais = categorias?.slice(0, 4) || []
   const categoriasRestantes = categorias?.slice(4) || []
 

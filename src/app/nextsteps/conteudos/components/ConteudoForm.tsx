@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { handleImageFallback } from '@/lib/utils'
 
 interface Categoria {
   id: number
@@ -115,9 +116,10 @@ export default function ConteudoForm({ conteudo, categorias }: ConteudoFormProps
           <div className="bg-gray-800 rounded-lg p-4">
             <h3 className="text-white font-semibold mb-3">Preview:</h3>
             <img
-              src={previewUrl}
+              src={previewUrl || '/placeholder-image.jpg'}
               alt="Preview"
               className="max-w-xs max-h-48 rounded-lg border border-gray-600"
+              onError={handleImageFallback}
             />
           </div>
         )}

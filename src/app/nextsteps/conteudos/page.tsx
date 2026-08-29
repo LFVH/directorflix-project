@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import SearchBarNxt from '@/components/SearchBarNxt'
 import { ToggleStatus } from '@/components/ToggleStatus'
+import { handleImageFallback } from '@/lib/utils'
 
 interface Conteudo {
   isTrend: boolean
@@ -153,9 +154,10 @@ export default function ConteudosPage() {
             <div key={conteudo.id} className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-gray-600 transition-colors">
               <div className="h-48 bg-gray-900 flex items-center justify-center">
                 <img
-                  src={conteudo.link || `/api/nextsteps/conteudo/${conteudo.id}`}
-                  alt={conteudo.nome}
+                  src={conteudo.link || `/api/nextsteps/conteudo/${conteudo.id}` || '/placeholder-image.jpg'}
+                  alt={conteudo.nome || 'Conteúdo sem imagem'}
                   className="max-h-full max-w-full object-contain"
+                  onError={handleImageFallback}
                 />
               </div>
 

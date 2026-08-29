@@ -1,6 +1,7 @@
 'use client'
 
 import { ConteudoWithUrl } from '@/types'
+import { handleImageFallback } from '@/lib/utils'
 
 interface ConteudoItemProps {
   conteudo: ConteudoWithUrl
@@ -78,16 +79,13 @@ export default function ConteudoItem({ conteudo, layout = 'carrossel' }: Conteud
       )}
 
       <img
-        src={conteudo.url}
-        alt={conteudo.filename}
+        src={conteudo.url || '/placeholder-image.jpg'}
+        alt={conteudo.filename || 'Conteúdo sem imagem'}
         className={`w-full h-full object-cover transition-transform duration-500 ease-out group-hover/item:scale-110 ${
           conteudo.isTrend ? 'brightness-110' : ''
         }`}
         loading="lazy"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement
-          target.src = '/placeholder-image.jpg'
-        }}
+        onError={handleImageFallback}
       />
       
       {/* Overlay com informações - CORRIGIDO: z-index mais baixo que os fogos */}

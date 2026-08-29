@@ -1,7 +1,7 @@
 'use client'
 
 import { CategoriaWithUrls } from '@/types'
-import { logNow } from '@/utils/Logging'
+import { handleImageFallback } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 
 interface HeroBannerProps {
@@ -52,9 +52,10 @@ export default function HeroBanner({ categorias, categoriaFiltrada  }: HeroBanne
     <div className="relative h-96 md:h-[500px] w-full overflow-hidden">
       {/* Imagem do Banner */}
       <img
-        src={currentBanner.url}
-        alt={currentBanner.filename}
+        src={currentBanner.url || '/placeholder-image.jpg'}
+        alt={currentBanner.filename || 'Banner do conteúdo'}
         className="w-full h-full object-cover"
+        onError={handleImageFallback}
       />
       
       {/* Overlay Gradiente */}

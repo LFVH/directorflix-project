@@ -1,5 +1,6 @@
 'use client';
 
+import { handleImageFallback } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -29,9 +30,10 @@ export function UserButton() {
     >
       {session.user?.image ? (
       <img
-        src={session.user.image}
+        src={session.user.image || '/placeholder-image.jpg'}
         alt={session.user.name || 'User'}
         className="w-8 h-8 rounded-full object-cover"
+        onError={handleImageFallback}
       />
     ) : (
       <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
